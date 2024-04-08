@@ -43,6 +43,8 @@ function drawVector(v, color) {
 
 function handleDrawEvent() {
     // Reset the canvas to a blank state
+    ctx.reset();
+    ctx.transform(1, 0, 0, -1, 0, canvas.height); // Refer to lines 13-15
     ctx.fillStyle = 'rgba(0, 0, 0, 1.0)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -64,6 +66,8 @@ function handleDrawEvent() {
 
 function handleDrawOperationEvent() {
     // Reset the canvas to a blank state
+    ctx.reset();
+    ctx.transform(1, 0, 0, -1, 0, canvas.height); // Refer to lines 13-15
     ctx.fillStyle = 'rgba(0, 0, 0, 1.0)';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
