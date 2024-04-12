@@ -70,11 +70,13 @@ function connectVariablesToGLSL() {
 // Constants
 const POINT = 0;
 const TRIANGLE = 1;
+const CIRCLE = 2;
 
 // Global variables related to UI elements
 let g_selectedColor = [0.0, 0.0, 0.0, 1.0];
 let g_size = 5.0;
 let g_selectedType = POINT;
+let g_count = 10;
 
 // Set up actions for the HTML UI elements
 function addActionsForHTMLUI() {
@@ -86,11 +88,13 @@ function addActionsForHTMLUI() {
 
   // Size Slider Event
   document.getElementById('size_slider').addEventListener('mouseup', function() { g_size = this.value; });
+  document.getElementById('segment_slider').addEventListener('mouseup', function() { g_count = this.value; });
 
   // Button Events
   document.getElementById('clear').onclick = function() { g_shapesList = []; renderAllShapes(); };
   document.getElementById('square').onclick = function() { g_selectedType = POINT; };
   document.getElementById('triangle').onclick = function() { g_selectedType = TRIANGLE; };
+  document.getElementById('circle').onclick = function() { g_selectedType = CIRCLE; };
 }
 
 function main() {
@@ -126,8 +130,11 @@ function click(ev) {
   let point;
   if (g_selectedType == POINT) {
     point = new Point();
-  } else {
+  } else if (g_selectedType == TRIANGLE) {
     point = new Triangle();
+  } else {
+    point = new Circle();
+    point.count = g_count;
   }
   point.position = [x, y];
   point.color = g_selectedColor.slice();
