@@ -2,7 +2,7 @@ class Triangle {
     constructor() {
         this.type = 'triangle';
         this.position = [0.0, 0.0, 0.0];
-        this.color = [0.0, 0.0, 0.0, 1.0];
+        this.color = [1.0, 1.0, 1.0, 1.0];
         this.size = 5.0;
     }
     
@@ -10,10 +10,7 @@ class Triangle {
         var xy = this.position;
         var rgba = this.color;
         var size = this.size;
-        // var xy = g_points[i];
-        // var rgba = g_colors[i];
-        // var size = g_sizes[i];
-    
+        
         // Pass the position of a point to a_Position variable
         //gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
         // Pass the color of a point to u_FragColor variable
@@ -22,7 +19,7 @@ class Triangle {
         gl.uniform1f(u_PointSize, size);
         // Draw
         var d = this.size/200.0; // delta
-        drawTriangle(xy[0], xy[1], xy[0]+d, xy[1], xy[0], xy[1]+d);
+        drawTriangle([xy[0], xy[1], xy[0]+d, xy[1], xy[0], xy[1]+d]);
     }
 }
 

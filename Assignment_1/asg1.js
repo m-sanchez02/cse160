@@ -67,6 +67,10 @@ function connectVariablesToGLSL() {
   }
 }
 
+// Constants
+const POINT = 0;
+const TRIANGLE = 1;
+
 // Global variables related to UI elements
 let g_selectedColor = [0.0, 0.0, 0.0, 1.0];
 let g_size = 5.0;
@@ -119,7 +123,12 @@ function click(ev) {
   let [x, y] = convertCDEventToGL(ev);
 
   // Create and store new point
-  let point = new Point();
+  let point;
+  if (g_selectedType == POINT) {
+    point = new Point();
+  } else {
+    point = new Triangle();
+  }
   point.position = [x, y];
   point.color = g_selectedColor.slice();
   point.size = g_size;
