@@ -9,10 +9,44 @@
     <canvas id="webgl" width="400" height="400">
         Please use a browser that supports "canvas"
     </canvas>
+    <p>
+
+    <p id="numdot"></p>
+
+    <section>
+        <div>
+            <button id="clear">Clear Canvas</button>
+        </div>
+        <div>
+            <p>Drawing Mode:</p>
+            <button id="square">Squares</button>
+            <button id="triangle">Triangles</button>
+            <button id="circle">Circles</button>
+        </div>
+    </section>
+
+    <section>
+        <p>Shape Color:</p>
+        <label for="red">Red</label>
+        <input name="red" id="red_slider" type="range" min="0" max="255" step="1" value="0"/>
+
+        <label for="green">Green</label>
+        <input name="green" id="green_slider" type="range" min="0" max="255" step="1" value="0"/>
+
+        <label for="blue">Blue</label>
+        <input name="blue" id="blue_slider" type="range" min="0" max="255" step="1" value="0"/>
+    
+        <p>
+
+        <label for="size">Shape Size</label>
+        <input name="size" id="size_slider" type="range" min="0" max="100" step="1" value="5"/>
+    </section>
 
     <script src="../lib/webgl-utils.js"></script>
     <script src="../lib/webgl-debug.js"></script>
     <script src="../lib/cuon-utils.js"></script>
+    <script src="../lib/point.js"></script>
+    <script src="../lib/triangle.js"></script>
     <script src="asg1.js"></script>
 </body>
 </html>

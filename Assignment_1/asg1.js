@@ -2,9 +2,10 @@
 // Vertex shader program
 var VSHADER_SOURCE = `
   attribute vec4 a_Position;
+  uniform float u_PointSize;
   void main() {
     gl_Position = a_Position;
-    gl_PointSize = 10.0;
+    gl_PointSize = u_PointSize;
   }`;
 
 // Fragment shader program
@@ -15,23 +16,28 @@ var FSHADER_SOURCE = `
     gl_FragColor = u_FragColor;
   }`;
 
+// Global variables
 let canvas;
 let gl;
 let a_Position;
 let u_FragColor;
+let u_PointSize;
 
+// Setup WebGL
 function setupWebGL() {
   // Retrieve <canvas> element
   canvas = document.getElementById('webgl');
 
   // Get the rendering context for WebGL
-  gl = getWebGLContext(canvas);
+  gl = canvas.getContext("webgl", { preserveDrawingBuffer: true});
+
   if (!gl) {
     console.log('Failed to get the rendering context for WebGL');
     return;
   }
 }
 
+// Initialize shaders and connect JS Variables to GLSL
 function connectVariablesToGLSL() {
   // Initialize shaders
   if (!initShaders(gl, VSHADER_SOURCE, FSHADER_SOURCE)) {
@@ -52,16 +58,49 @@ function connectVariablesToGLSL() {
     console.log('Failed to get the storage location of u_FragColor');
     return;
   }
+
+  // Get the storage location of u_PointSize
+  u_PointSize = gl.getUniformLocation(gl.program, 'u_PointSize');
+  if (!u_PointSize) {
+    console.log('Failed to get the storage location of u_PointSize');
+    return;
+  }
+}
+
+// Global variables related to UI elements
+let g_selectedColor = [0.0, 0.0, 0.0, 1.0];
+let g_size = 5.0;
+
+// Set up actions for the HTML UI elements
+function addActionsForHTMLUI() {
+  
+  // Color Slider Events
+  document.getElementById('red_slider').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/255; } );
+  document.getElementById('green_slider').addEventListener('mouseup', function() { g_selectedColor[1] = this.value/255; } );
+  document.getElementById('blue_slider').addEventListener('mouseup', function() { g_selectedColor[2] = this.value/255; } );
+
+  // Size Slider Event
+  document.getElementById('size_slider').addEventListener('mouseup', function() { g_size = this.value; });
+
+  // Button Events
+  document.getElementById('clear').onclick = function() { g_shapesList = []; renderAllShapes(); };
+  
 }
 
 function main() {
-
+  
+  // Set up canvas and GL variables
   setupWebGL();
 
+  // Set up GLSL shader programs and connect GLSL variables
   connectVariablesToGLSL();
 
-  // Register function (event handler) to be called on a mouse press
+  // Set up actions for the HTML UI elements
+  addActionsForHTMLUI();
+
+  // Register function (event handler) to be called on a mouse press/move
   canvas.onmousedown = click;
+  canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev); } };
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -70,21 +109,20 @@ function main() {
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-var g_points = [];  // The array for the position of a mouse press
-var g_colors = [];  // The array to store the color of a point
+
+var g_shapesList = []; // The array containing the position of a mouse press and the color and size of a point
 
 function click(ev) {
   // Store the coordinates to g_points array
   let [x, y] = convertCDEventToGL(ev);
-  g_points.push([x, y]);
-  // Store the coordinates to g_points array
-  if (x >= 0.0 && y >= 0.0) {      // First quadrant
-    g_colors.push([1.0, 0.0, 0.0, 1.0]);  // Red
-  } else if (x < 0.0 && y < 0.0) { // Third quadrant
-    g_colors.push([0.0, 1.0, 0.0, 1.0]);  // Green
-  } else {                         // Others
-    g_colors.push([1.0, 1.0, 1.0, 1.0]);  // White
-  }
+
+  // Create and store new point
+  let point = new Point();
+  point.position = [x, y];
+  point.color = g_selectedColor.slice();
+  point.size = g_size;
+
+  g_shapesList.push(point);
 
   renderAllShapes();
 }
@@ -100,19 +138,24 @@ function convertCDEventToGL(ev) {
 }
 
 function renderAllShapes() {
+  var startTime = performance.now();
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT);
 
-  var len = g_points.length;
+  var len = g_shapesList.length;
   for(var i = 0; i < len; i++) {
-    var xy = g_points[i];
-    var rgba = g_colors[i];
-
-    // Pass the position of a point to a_Position variable
-    gl.vertexAttrib3f(a_Position, xy[0], xy[1], 0.0);
-    // Pass the color of a point to u_FragColor variable
-    gl.uniform4f(u_FragColor, rgba[0], rgba[1], rgba[2], rgba[3]);
-    // Draw
-    gl.drawArrays(gl.POINTS, 0, 1);
+    g_shapesList[i].render();
   }
+
+  var duration = performance.now() - startTime;
+  sendTextToHTML("numdot: " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration), "numdot");
+}
+
+function sendTextToHTML(text, htmlID) {
+  var htmlElm = document.getElementById(htmlID);
+  if (!htmlElm) {
+    console.log("Failed to get " + htmlID + " from HTML");
+    return;
+  }
+  htmlElm.innerHTML = text;
 }
