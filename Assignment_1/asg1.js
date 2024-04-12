@@ -70,6 +70,7 @@ function connectVariablesToGLSL() {
 // Global variables related to UI elements
 let g_selectedColor = [0.0, 0.0, 0.0, 1.0];
 let g_size = 5.0;
+let g_selectedType = POINT;
 
 // Set up actions for the HTML UI elements
 function addActionsForHTMLUI() {
@@ -84,7 +85,8 @@ function addActionsForHTMLUI() {
 
   // Button Events
   document.getElementById('clear').onclick = function() { g_shapesList = []; renderAllShapes(); };
-  
+  document.getElementById('square').onclick = function() { g_selectedType = POINT; };
+  document.getElementById('triangle').onclick = function() { g_selectedType = TRIANGLE; };
 }
 
 function main() {
