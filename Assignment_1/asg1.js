@@ -1,4 +1,5 @@
-// ColoredPoint.js (c) 2012 matsuda
+// asg1.js
+// Built off of ColoredPoint.js (c) 2012 matsuda
 // Vertex shader program
 var VSHADER_SOURCE = `
   attribute vec4 a_Position;
@@ -45,6 +46,11 @@ function connectVariablesToGLSL() {
     return;
   }
 
+  // Enable alpha blending for transparancy
+  // Derived from WebGL Programming Guide Textbook Chapter 10: Alpha Blending
+  gl.enable(gl.BLEND);
+  gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
   // // Get the storage location of a_Position
   a_Position = gl.getAttribLocation(gl.program, 'a_Position');
   if (a_Position < 0) {
@@ -85,6 +91,7 @@ function addActionsForHTMLUI() {
   document.getElementById('red_slider').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/255; } );
   document.getElementById('green_slider').addEventListener('mouseup', function() { g_selectedColor[1] = this.value/255; } );
   document.getElementById('blue_slider').addEventListener('mouseup', function() { g_selectedColor[2] = this.value/255; } );
+  document.getElementById('alpha_slider').addEventListener('mouseup', function() { g_selectedColor[3] = this.value/100; } );
 
   // Size Slider Event
   document.getElementById('size_slider').addEventListener('mouseup', function() { g_size = this.value; });
