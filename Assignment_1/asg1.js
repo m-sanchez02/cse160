@@ -84,13 +84,13 @@ let g_selectedColorCopy = [];
 let g_size = 5.0;
 let g_selectedType = POINT;
 let g_count = 10; // Number of segments on a circle
-let g_stats = 0;
-let g_rainbow = false;
+let g_stats = 0; // Debug stats
+let g_rainbow = false; // Rainbow Toggle (false = off, true = on)
 
 // Set up actions for the HTML UI elements
 function addActionsForHTMLUI() {
   
-  // Color Slider and Checkbox Events
+  // Color Slider Events
   document.getElementById('red_slider').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/255; document.getElementById('red_val').value = this.value;}  );
   document.getElementById('green_slider').addEventListener('mouseup', function() { g_selectedColor[1] = this.value/255; document.getElementById('green_val').value = this.value;}  );
   document.getElementById('blue_slider').addEventListener('mouseup', function() {g_selectedColor[2] = this.value/255; document.getElementById('blue_val').value = this.value;}  );
@@ -145,7 +145,7 @@ function main() {
 
 // Global variables (list of shapes on canvas)
 var g_shapesList = []; // The array containing the position of a mouse press and the color and size of a point
-var cur_color = 0;
+var cur_color = 0; // Value to decide what color increases/decreases
 
 function click(ev) {
   // Store the coordinates to g_points array
@@ -165,7 +165,7 @@ function click(ev) {
 
   point.position = [x, y];
 
-  
+  // Check for rainbow mode
   if (g_rainbow) {
     rainbowMode();
   }
@@ -189,22 +189,25 @@ function convertCDEventToGL(ev) {
 }
 
 function renderAllShapes() {
-  var startTime = performance.now();
+  var startTime = performance.now(); // Debug information
 
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT);
 
+  // Render shapes onto <canvas>
   var len = g_shapesList.length;
   for(var i = 0; i < len; i++) {
     g_shapesList[i].render();
   }
 
+  // Debug information
   var duration = performance.now() - startTime;
   if (g_stats === 1) {
     sendTextToHTML("numdot: " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration), "numdot");
   }
 }
 
+// Debug stats
 function sendTextToHTML(text, htmlID) {
   var htmlElm = document.getElementById(htmlID);
   if (!htmlElm) {
@@ -214,6 +217,7 @@ function sendTextToHTML(text, htmlID) {
   htmlElm.innerHTML = text;
 }
 
+// Draw a hard-coded image drawn with triangles on <canvas>
 function drawImage() {
   gl.clear(gl.COLOR_BUFFER_BIT);
   g_shapesList = [];
@@ -253,6 +257,8 @@ function drawImage() {
   ];
 
   var i = 0;
+
+  // Background
   for (i; i < 2; i++) {
     let point = new Triangle();
     point.settings = true;
@@ -261,6 +267,8 @@ function drawImage() {
     g_shapesList.push(point);
     renderAllShapes();
   }
+
+  // Road
   for (i; i < 4; i++) {
     let point = new Triangle();
     point.settings = true;
@@ -269,6 +277,8 @@ function drawImage() {
     g_shapesList.push(point);
     renderAllShapes();
   }
+  
+  // Road Stripes
   for (i; i < 10; i++) {
     let point = new Triangle();
     point.settings = true;
@@ -277,6 +287,8 @@ function drawImage() {
     g_shapesList.push(point);
     renderAllShapes();
   }
+
+  // Body
   for (i; i < 24; i++) {
     let point = new Triangle();
     point.settings = true;
@@ -285,6 +297,8 @@ function drawImage() {
     g_shapesList.push(point);
     renderAllShapes();
   }
+
+  // Brake light
   for (i; i < 25; i++) {
     let point = new Triangle();
     point.settings = true;
@@ -293,6 +307,8 @@ function drawImage() {
     g_shapesList.push(point);
     renderAllShapes();
   }
+
+  // Headlight
   for (i; i < 26; i++) {
     let point = new Triangle();
     point.settings = true;
@@ -301,6 +317,8 @@ function drawImage() {
     g_shapesList.push(point);
     renderAllShapes();
   }
+
+  // Windshield
   for (i; i < 27; i++) {
     let point = new Triangle();
     point.settings = true;
@@ -309,6 +327,8 @@ function drawImage() {
     g_shapesList.push(point);
     renderAllShapes();
   }
+  
+  // Wheels
   for (i; i < 31; i++) {
     let point = new Triangle();
     point.settings = true;
@@ -317,6 +337,8 @@ function drawImage() {
     g_shapesList.push(point);
     renderAllShapes();
   }
+
+  // Spoiler
   for (i; i < 32; i++) {
     let point = new Triangle();
     point.settings = true;
@@ -327,17 +349,21 @@ function drawImage() {
   }
 }
 
+// Function that toggles between rainbow mode and normal mode
+// Sets up g_selectedColor array and reverts it
 function rainbowToggle() {
   g_rainbow = !g_rainbow; 
   if (g_rainbow) {
-    g_selectedColorCopy = g_selectedColor.slice(); 
     g_selectedColor = [1.0, 0.0, 0.0, 1.0]; 
     cur_color = 0;
   } else {
-    g_selectedColor = g_selectedColorCopy.slice();
+    g_selectedColor[0] = document.getElementById('red_slider').value/255;
+    g_selectedColor[1] = document.getElementById('green_slider').value/255;
+    g_selectedColor[2] = document.getElementById('blue_slider').value/255;
   }
 }
 
+// Change color values over time (R -> G, G -> B, B -> R)
 function rainbowMode() {
   switch(cur_color) {
     case 0:
