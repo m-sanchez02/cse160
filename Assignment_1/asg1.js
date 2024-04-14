@@ -142,7 +142,6 @@ function main() {
 
 // Global variables (list of shapes on canvas)
 var g_shapesList = []; // The array containing the position of a mouse press and the color and size of a point
-var g_shapesListCopy = [];
 
 function click(ev) {
   // Store the coordinates to g_points array
@@ -316,59 +315,4 @@ function drawImage() {
     g_shapesList.push(point);
     renderAllShapes();
   }
-
-  // // Background
-  // gl.uniform4f(u_FragColor, 0.0, 135/255, 165/255, 1.0);
-  // drawTriangle([-1.0, -1.0, 1.0, 1.0, 1.0, -1.0]);
-  // drawTriangle([-1.0, -1.0, -1.0, 1.0, 1.0, 1.0]);
-
-  // // Ground
-  // gl.uniform4f(u_FragColor, 150/255, 150/255, 150/255, 1.0);
-  // drawTriangle([-1.0, -1.0, 1.0, -0.6, 1.0, -1.0]);
-  // drawTriangle([-1.0, -1.0, -1.0, -0.6, 1.0, -0.6]);
-  // gl.uniform4f(u_FragColor, 1.0, 1.0, 0.0, 1.0);
-  // drawTriangle([-0.8, -0.7, -0.8, -0.6, -0.4, -0.7]);
-  // drawTriangle([-0.8, -0.6, -0.4, -0.6, -0.4, -0.7]);
-  // drawTriangle([-0.1, -0.7, -0.1, -0.6, 0.3, -0.7]);
-  // drawTriangle([-0.1, -0.6, 0.3, -0.6, 0.3, -0.7]);
-  // drawTriangle([0.6, -0.7, 0.6, -0.6, 1.0, -0.7]);
-  // drawTriangle([0.6, -0.6, 1.0, -0.6, 1.0, -0.7]);
-
-  // // Body
-  // gl.uniform4f(u_FragColor, 0.0, 200/255, 0.0, 1.0);
-  // drawTriangle([-1.0, -0.4, -0.8, 0.0, -0.8, -0.4]);
-  // drawTriangle([-0.8, -0.4, -0.8, 0.0, -0.6, -0.2]);
-  // drawTriangle([-0.8, 0.0, -0.4, 0.0, -0.4, -0.4]);
-  // drawTriangle([-0.6, 0.0, -0.6, 0.2, -0.2, 0.0]);
-  // drawTriangle([-0.6, 0.2, -0.2, 0.4, -0.2, 0.0]);
-  // drawTriangle([-0.4, -0.4, -0.4, 0.0, -0.2, -0.4]);
-  // drawTriangle([-0.4, 0.0, -0.2, 0.0, -0.2, -0.4]);
-  // drawTriangle([-0.2, -0.4, -0.2, 0.4, 0.2, -0.4]);
-  // drawTriangle([-0.2, 0.4, 0.2, 0.4, 0.2, -0.4]);
-  // drawTriangle([0.2, -0.4, 0.2, 0.0, 0.4, -0.2]);
-  // drawTriangle([0.2, 0.0, 0.6, 0.0, 0.6, -0.4]);
-  // drawTriangle([0.6, -0.4, 0.6, 0.0, 1.0, -0.4]);
-  // drawTriangle([0.6, 0.0, 0.8, 0.0, 0.8, -0.2]);
-  // drawTriangle([0.8, -0.2, 1.0, -0.2, 1.0, -0.4]);
-
-  // // Lights
-  // gl.uniform4f(u_FragColor, 1.0, 0.0, 0.0, 1.0);
-  // drawTriangle([-0.8, 0.0, -0.6, 0.2, -0.6, 0.0]);
-  // gl.uniform4f(u_FragColor, 1.0, 1.0, 0.0, 1.0);
-  // drawTriangle([0.8, -0.2, 0.8, 0.0, 1.0, -0.2]);
-
-  // // Windshield
-  // gl.uniform4f(u_FragColor, 200/255, 200/255, 200/255, 1.0);
-  // drawTriangle([0.2, 0.0, 0.2, 0.4, 0.6, 0.0]);
-
-  // // Wheels
-  // gl.uniform4f(u_FragColor, 50/255, 50/255, 50/255, 1.0);
-  // drawTriangle([-0.8, -0.4, -0.6, -0.2, -0.4, -0.4]);
-  // drawTriangle([-0.8, -0.4, -0.4, -0.4, -0.6, -0.6]);
-  // drawTriangle([0.2, -0.4, 0.4, -0.2, 0.6, -0.4]);
-  // drawTriangle([0.2, -0.4, 0.6, -0.4, 0.4, -0.6]);
-
-  // // Spoiler
-  // gl.uniform4f(u_FragColor, 0.0, 0.0, 0.0, 1.0);
-  // drawTriangle([-0.8, 0.2, -0.8, 0.4, -0.6, 0.2]);
 }
