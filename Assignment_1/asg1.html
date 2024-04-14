@@ -9,6 +9,9 @@
     <canvas id="webgl" width="400" height="400">
         Please use a browser that supports "canvas"
     </canvas>
+
+    <img src="lib/car_drawing.jpg" alt="Drawing of a car using triangles" width="400" height="400">
+
     <p>
     
     <button id="stats">Statistics</button>
@@ -22,33 +25,35 @@
     <p>
 
     Drawing Mode:
+    <p>
     <button id="square">Squares</button>
     <button id="triangle">Triangles</button>
     <button id="circle">Circles</button>
-    <!-- <button id="tri_custom">Change Triangle Shape</button> -->
 
     <p>Shape Color:</p>
-    <label for="red">Red</label>
+    <label for="red_slider">Red</label>
     <input name="red" id="red_slider" type="range" min="0" max="255" step="1" value="255"/>
     <input id="red_val" type="number" min="0" max="255" value="255"/>
 
-    <label for="green">Green</label>
+    <label for="green_slider">Green</label>
     <input name="green" id="green_slider" type="range" min="0" max="255" step="1" value="255"/>
     <input id="green_val" type="number" min="0" max="255" value="255"/>
 
-    <label for="blue">Blue</label>
+    <label for="blue_slider">Blue</label>
     <input name="blue" id="blue_slider" type="range" min="0" max="255" step="1" value="255"/>
     <input id="blue_val" type="number" min="0" max="255" value="255"/>
     
-    <label for="alpha">Transparancy</label>
+    <label for="alpha_slider">Transparancy</label>
     <input name="alpha" id="alpha_slider" type="range" min="0" max="100" step="1" value="100"/>
     <p>
 
-    <label for="size">Shape Size</label>
+    <label for="size_slider">Shape Size</label>
     <input name="size" id="size_slider" type="range" min="5" max="125" step="1" value="5"/>
 
-    <label for="segment">Segment Count</label>
+    <label for="segment_slider">Segment Count</label>
     <input name="segment" id="segment_slider" type="range" min="10" max="50" step="1" value="10"/>
+
+    <button id="rainbow">Rainbow Coloring</button>
 
     <h3>Miguel Sanchez Reyes</h3>
     <h3>msanc158@ucsc.edu</h3>
@@ -59,7 +64,8 @@
         - Able to specify numerical values for RGB (ranged between 0-255) <br>
         - Added transparency, utilizing the alpha value <br> 
         - Added an undo button to remove the last placed shape, alternative to clearing the entire canvas <br>
-    </p>
+        - Added a "Rainbow Coloring" button that toggles between normal drawing mode choosing colors with sliders to <br>
+        rainbow mode which loops around all colors when drawing over time.
     <script src="lib/webgl-utils.js"></script>
     <script src="lib/webgl-debug.js"></script>
     <script src="lib/cuon-utils.js"></script>

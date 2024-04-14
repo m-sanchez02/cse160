@@ -80,15 +80,17 @@ const CIRCLE = 2;
 
 // Global variables related to UI elements
 let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
+let g_selectedColorCopy = [];
 let g_size = 5.0;
 let g_selectedType = POINT;
 let g_count = 10; // Number of segments on a circle
 let g_stats = 0;
+let g_rainbow = false;
 
 // Set up actions for the HTML UI elements
 function addActionsForHTMLUI() {
   
-  // Color Slider Events
+  // Color Slider and Checkbox Events
   document.getElementById('red_slider').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/255; document.getElementById('red_val').value = this.value;}  );
   document.getElementById('green_slider').addEventListener('mouseup', function() { g_selectedColor[1] = this.value/255; document.getElementById('green_val').value = this.value;}  );
   document.getElementById('blue_slider').addEventListener('mouseup', function() {g_selectedColor[2] = this.value/255; document.getElementById('blue_val').value = this.value;}  );
@@ -101,6 +103,7 @@ function addActionsForHTMLUI() {
   // Button Events (canvas manipulation)
   document.getElementById('clear').onclick = function() { g_shapesList = []; renderAllShapes(); };
   document.getElementById('undo').onclick = function() { g_shapesList.pop(); renderAllShapes(); };
+  document.getElementById('rainbow').onclick = function() { rainbowToggle(); };
 
   // Button Events (shape change)
   document.getElementById('square').onclick = function() { g_selectedType = POINT; };
@@ -142,6 +145,7 @@ function main() {
 
 // Global variables (list of shapes on canvas)
 var g_shapesList = []; // The array containing the position of a mouse press and the color and size of a point
+var cur_color = 0;
 
 function click(ev) {
   // Store the coordinates to g_points array
@@ -158,7 +162,14 @@ function click(ev) {
     point = new Circle();
     point.count = g_count;
   }
+
   point.position = [x, y];
+
+  
+  if (g_rainbow) {
+    rainbowMode();
+  }
+
   point.color = g_selectedColor.slice();
   point.size = g_size;
 
@@ -174,7 +185,6 @@ function convertCDEventToGL(ev) {
 
   x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
   y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
-  console.log([x, y]);
   return ([x, y]);
 }
 
@@ -314,5 +324,59 @@ function drawImage() {
     point.color = [0.0, 0.0, 0.0, 1.0];
     g_shapesList.push(point);
     renderAllShapes();
+  }
+}
+
+function rainbowToggle() {
+  g_rainbow = !g_rainbow; 
+  if (g_rainbow) {
+    g_selectedColorCopy = g_selectedColor.slice(); 
+    g_selectedColor = [1.0, 0.0, 0.0, 1.0]; 
+    cur_color = 0;
+  } else {
+    g_selectedColor = g_selectedColorCopy.slice();
+  }
+}
+
+function rainbowMode() {
+  switch(cur_color) {
+    case 0:
+      g_selectedColor[1] += 0.01;
+      if (g_selectedColor[1] > 0.9) {
+        cur_color = 1;
+      }
+      break;
+    case 1:
+      g_selectedColor[0] -= 0.01;
+      if (g_selectedColor[0] < 0.1) {
+        cur_color = 2;
+      }
+      break;
+    case 2:
+      g_selectedColor[2] += 0.01;
+      if (g_selectedColor[2] > 0.9) {
+        cur_color = 3;
+      }
+      break;
+    case 3:
+      g_selectedColor[1] -= 0.01;
+      if (g_selectedColor[1] < 0.1) {
+        cur_color = 4;
+      }
+      break;
+    case 4:
+      g_selectedColor[0] += 0.01;
+      if (g_selectedColor[0] > 0.9) {
+        cur_color = 5;
+      }
+      break;
+    case 5:
+      g_selectedColor[2] -= 0.01;
+      if (g_selectedColor[2] < 0.1) {
+        cur_color = 0;
+      }
+      break;
+    default:
+      break;
   }
 }
