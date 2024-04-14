@@ -79,29 +79,42 @@ const TRIANGLE = 1;
 const CIRCLE = 2;
 
 // Global variables related to UI elements
-let g_selectedColor = [0.0, 0.0, 0.0, 1.0];
+let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
 let g_size = 5.0;
 let g_selectedType = POINT;
-let g_count = 10;
+let g_count = 10; // Number of segments on a circle
+let g_stats = 0;
 
 // Set up actions for the HTML UI elements
 function addActionsForHTMLUI() {
   
   // Color Slider Events
-  document.getElementById('red_slider').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/255; } );
-  document.getElementById('green_slider').addEventListener('mouseup', function() { g_selectedColor[1] = this.value/255; } );
-  document.getElementById('blue_slider').addEventListener('mouseup', function() { g_selectedColor[2] = this.value/255; } );
-  document.getElementById('alpha_slider').addEventListener('mouseup', function() { g_selectedColor[3] = this.value/100; } );
+  document.getElementById('red_slider').addEventListener('mouseup', function() { g_selectedColor[0] = this.value/255; document.getElementById('red_val').value = this.value;}  );
+  document.getElementById('green_slider').addEventListener('mouseup', function() { g_selectedColor[1] = this.value/255; document.getElementById('green_val').value = this.value;}  );
+  document.getElementById('blue_slider').addEventListener('mouseup', function() {g_selectedColor[2] = this.value/255; document.getElementById('blue_val').value = this.value;}  );
+  document.getElementById('alpha_slider').addEventListener('mouseup', function() {g_selectedColor[3] = this.value/100; }  );
 
-  // Size Slider Event
+  // Size/Segment Slider Events
   document.getElementById('size_slider').addEventListener('mouseup', function() { g_size = this.value; });
   document.getElementById('segment_slider').addEventListener('mouseup', function() { g_count = this.value; });
 
-  // Button Events
+  // Button Events (canvas manipulation)
   document.getElementById('clear').onclick = function() { g_shapesList = []; renderAllShapes(); };
+  document.getElementById('undo').onclick = function() { g_shapesList.pop(); renderAllShapes(); };
+
+  // Button Events (shape change)
   document.getElementById('square').onclick = function() { g_selectedType = POINT; };
   document.getElementById('triangle').onclick = function() { g_selectedType = TRIANGLE; };
   document.getElementById('circle').onclick = function() { g_selectedType = CIRCLE; };
+
+  // Button Events (statistics and drawing)
+  document.getElementById('stats').onclick = function() { g_stats = 1; };
+  document.getElementById('drawing').onclick = function() { drawImage();};
+  
+  // RGB Numerical Value Events
+  document.getElementById('red_val').addEventListener('input', function () {g_selectedColor[0] = this.value/255; document.getElementById('red_slider').value = this.value; });
+  document.getElementById('green_val').addEventListener('input', function() { g_selectedColor[1] = this.value/255; document.getElementById('green_slider').value = this.value;});
+  document.getElementById('blue_val').addEventListener('input', function() {g_selectedColor[2] = this.value/255; document.getElementById('blue_slider').value = this.value;});
 }
 
 function main() {
@@ -117,7 +130,8 @@ function main() {
 
   // Register function (event handler) to be called on a mouse press/move
   canvas.onmousedown = click;
-  canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev); } };
+  //canvas.onmousemove = mouseMove;
+  canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev); }};
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -126,8 +140,9 @@ function main() {
   gl.clear(gl.COLOR_BUFFER_BIT);
 }
 
-
+// Global variables (list of shapes on canvas)
 var g_shapesList = []; // The array containing the position of a mouse press and the color and size of a point
+var g_shapesListCopy = [];
 
 function click(ev) {
   // Store the coordinates to g_points array
@@ -139,6 +154,7 @@ function click(ev) {
     point = new Point();
   } else if (g_selectedType == TRIANGLE) {
     point = new Triangle();
+    point.settings = false;
   } else {
     point = new Circle();
     point.count = g_count;
@@ -159,11 +175,13 @@ function convertCDEventToGL(ev) {
 
   x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
   y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
+  console.log([x, y]);
   return ([x, y]);
 }
 
 function renderAllShapes() {
   var startTime = performance.now();
+
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT);
 
@@ -173,7 +191,9 @@ function renderAllShapes() {
   }
 
   var duration = performance.now() - startTime;
-  sendTextToHTML("numdot: " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration), "numdot");
+  if (g_stats === 1) {
+    sendTextToHTML("numdot: " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration), "numdot");
+  }
 }
 
 function sendTextToHTML(text, htmlID) {
@@ -183,4 +203,172 @@ function sendTextToHTML(text, htmlID) {
     return;
   }
   htmlElm.innerHTML = text;
+}
+
+function drawImage() {
+  gl.clear(gl.COLOR_BUFFER_BIT);
+  g_shapesList = [];
+  var listTriangles = [
+  [-1.0, -1.0, 1.0, 1.0, 1.0, -1.0],
+  [-1.0, -1.0, -1.0, 1.0, 1.0, 1.0],
+  [-1.0, -1.0, 1.0, -0.6, 1.0, -1.0],
+  [-1.0, -1.0, -1.0, -0.6, 1.0, -0.6],
+  [-0.8, -0.7, -0.8, -0.6, -0.4, -0.7],
+  [-0.8, -0.6, -0.4, -0.6, -0.4, -0.7],
+  [-0.1, -0.7, -0.1, -0.6, 0.3, -0.7],
+  [-0.1, -0.6, 0.3, -0.6, 0.3, -0.7],
+  [0.6, -0.7, 0.6, -0.6, 1.0, -0.7],
+  [0.6, -0.6, 1.0, -0.6, 1.0, -0.7],
+  [-1.0, -0.4, -0.8, 0.0, -0.8, -0.4],
+  [-0.8, -0.4, -0.8, 0.0, -0.6, -0.2],
+  [-0.8, 0.0, -0.4, 0.0, -0.4, -0.4],
+  [-0.6, 0.0, -0.6, 0.2, -0.2, 0.0],
+  [-0.6, 0.2, -0.2, 0.4, -0.2, 0.0],
+  [-0.4, -0.4, -0.4, 0.0, -0.2, -0.4],
+  [-0.4, 0.0, -0.2, 0.0, -0.2, -0.4],
+  [-0.2, -0.4, -0.2, 0.4, 0.2, -0.4],
+  [-0.2, 0.4, 0.2, 0.4, 0.2, -0.4],
+  [0.2, -0.4, 0.2, 0.0, 0.4, -0.2],
+  [0.2, 0.0, 0.6, 0.0, 0.6, -0.4],
+  [0.6, -0.4, 0.6, 0.0, 1.0, -0.4],
+  [0.6, 0.0, 0.8, 0.0, 0.8, -0.2],
+  [0.8, -0.2, 1.0, -0.2, 1.0, -0.4],
+  [-0.8, 0.0, -0.6, 0.2, -0.6, 0.0],
+  [0.8, -0.2, 0.8, 0.0, 1.0, -0.2],
+  [0.2, 0.0, 0.2, 0.4, 0.6, 0.0],
+  [-0.8, -0.4, -0.6, -0.2, -0.4, -0.4],
+  [-0.8, -0.4, -0.4, -0.4, -0.6, -0.6],
+  [0.2, -0.4, 0.4, -0.2, 0.6, -0.4],
+  [0.2, -0.4, 0.6, -0.4, 0.4, -0.6],
+  [-0.8, 0.2, -0.8, 0.4, -0.6, 0.2]
+  ];
+
+  var i = 0;
+  for (i; i < 2; i++) {
+    let point = new Triangle();
+    point.settings = true;
+    point.position = listTriangles[i];
+    point.color = [0.0, 135/255, 165/255, 1.0];
+    g_shapesList.push(point);
+    renderAllShapes();
+  }
+  for (i; i < 4; i++) {
+    let point = new Triangle();
+    point.settings = true;
+    point.position = listTriangles[i];
+    point.color = [150/255, 150/255, 150/255, 1.0];
+    g_shapesList.push(point);
+    renderAllShapes();
+  }
+  for (i; i < 10; i++) {
+    let point = new Triangle();
+    point.settings = true;
+    point.position = listTriangles[i];
+    point.color = [1.0, 1.0, 0.0, 1.0];
+    g_shapesList.push(point);
+    renderAllShapes();
+  }
+  for (i; i < 24; i++) {
+    let point = new Triangle();
+    point.settings = true;
+    point.position = listTriangles[i];
+    point.color = [0.0, 200/255, 0.0, 1.0];
+    g_shapesList.push(point);
+    renderAllShapes();
+  }
+  for (i; i < 25; i++) {
+    let point = new Triangle();
+    point.settings = true;
+    point.position = listTriangles[i];
+    point.color = [1.0, 0.0, 0.0, 1.0];
+    g_shapesList.push(point);
+    renderAllShapes();
+  }
+  for (i; i < 26; i++) {
+    let point = new Triangle();
+    point.settings = true;
+    point.position = listTriangles[i];
+    point.color = [1.0, 1.0, 0.0, 1.0];
+    g_shapesList.push(point);
+    renderAllShapes();
+  }
+  for (i; i < 27; i++) {
+    let point = new Triangle();
+    point.settings = true;
+    point.position = listTriangles[i];
+    point.color = [200/255, 200/255, 200/255, 1.0];
+    g_shapesList.push(point);
+    renderAllShapes();
+  }
+  for (i; i < 31; i++) {
+    let point = new Triangle();
+    point.settings = true;
+    point.position = listTriangles[i];
+    point.color = [50/255, 50/255, 50/255, 1.0];
+    g_shapesList.push(point);
+    renderAllShapes();
+  }
+  for (i; i < 32; i++) {
+    let point = new Triangle();
+    point.settings = true;
+    point.position = listTriangles[i];
+    point.color = [0.0, 0.0, 0.0, 1.0];
+    g_shapesList.push(point);
+    renderAllShapes();
+  }
+
+  // // Background
+  // gl.uniform4f(u_FragColor, 0.0, 135/255, 165/255, 1.0);
+  // drawTriangle([-1.0, -1.0, 1.0, 1.0, 1.0, -1.0]);
+  // drawTriangle([-1.0, -1.0, -1.0, 1.0, 1.0, 1.0]);
+
+  // // Ground
+  // gl.uniform4f(u_FragColor, 150/255, 150/255, 150/255, 1.0);
+  // drawTriangle([-1.0, -1.0, 1.0, -0.6, 1.0, -1.0]);
+  // drawTriangle([-1.0, -1.0, -1.0, -0.6, 1.0, -0.6]);
+  // gl.uniform4f(u_FragColor, 1.0, 1.0, 0.0, 1.0);
+  // drawTriangle([-0.8, -0.7, -0.8, -0.6, -0.4, -0.7]);
+  // drawTriangle([-0.8, -0.6, -0.4, -0.6, -0.4, -0.7]);
+  // drawTriangle([-0.1, -0.7, -0.1, -0.6, 0.3, -0.7]);
+  // drawTriangle([-0.1, -0.6, 0.3, -0.6, 0.3, -0.7]);
+  // drawTriangle([0.6, -0.7, 0.6, -0.6, 1.0, -0.7]);
+  // drawTriangle([0.6, -0.6, 1.0, -0.6, 1.0, -0.7]);
+
+  // // Body
+  // gl.uniform4f(u_FragColor, 0.0, 200/255, 0.0, 1.0);
+  // drawTriangle([-1.0, -0.4, -0.8, 0.0, -0.8, -0.4]);
+  // drawTriangle([-0.8, -0.4, -0.8, 0.0, -0.6, -0.2]);
+  // drawTriangle([-0.8, 0.0, -0.4, 0.0, -0.4, -0.4]);
+  // drawTriangle([-0.6, 0.0, -0.6, 0.2, -0.2, 0.0]);
+  // drawTriangle([-0.6, 0.2, -0.2, 0.4, -0.2, 0.0]);
+  // drawTriangle([-0.4, -0.4, -0.4, 0.0, -0.2, -0.4]);
+  // drawTriangle([-0.4, 0.0, -0.2, 0.0, -0.2, -0.4]);
+  // drawTriangle([-0.2, -0.4, -0.2, 0.4, 0.2, -0.4]);
+  // drawTriangle([-0.2, 0.4, 0.2, 0.4, 0.2, -0.4]);
+  // drawTriangle([0.2, -0.4, 0.2, 0.0, 0.4, -0.2]);
+  // drawTriangle([0.2, 0.0, 0.6, 0.0, 0.6, -0.4]);
+  // drawTriangle([0.6, -0.4, 0.6, 0.0, 1.0, -0.4]);
+  // drawTriangle([0.6, 0.0, 0.8, 0.0, 0.8, -0.2]);
+  // drawTriangle([0.8, -0.2, 1.0, -0.2, 1.0, -0.4]);
+
+  // // Lights
+  // gl.uniform4f(u_FragColor, 1.0, 0.0, 0.0, 1.0);
+  // drawTriangle([-0.8, 0.0, -0.6, 0.2, -0.6, 0.0]);
+  // gl.uniform4f(u_FragColor, 1.0, 1.0, 0.0, 1.0);
+  // drawTriangle([0.8, -0.2, 0.8, 0.0, 1.0, -0.2]);
+
+  // // Windshield
+  // gl.uniform4f(u_FragColor, 200/255, 200/255, 200/255, 1.0);
+  // drawTriangle([0.2, 0.0, 0.2, 0.4, 0.6, 0.0]);
+
+  // // Wheels
+  // gl.uniform4f(u_FragColor, 50/255, 50/255, 50/255, 1.0);
+  // drawTriangle([-0.8, -0.4, -0.6, -0.2, -0.4, -0.4]);
+  // drawTriangle([-0.8, -0.4, -0.4, -0.4, -0.6, -0.6]);
+  // drawTriangle([0.2, -0.4, 0.4, -0.2, 0.6, -0.4]);
+  // drawTriangle([0.2, -0.4, 0.6, -0.4, 0.4, -0.6]);
+
+  // // Spoiler
+  // gl.uniform4f(u_FragColor, 0.0, 0.0, 0.0, 1.0);
+  // drawTriangle([-0.8, 0.2, -0.8, 0.4, -0.6, 0.2]);
 }

@@ -2,7 +2,7 @@ class Point {
     constructor() {
         this.type = 'point';
         this.position = [0.0, 0.0, 0.0];
-        this.color = [0.0, 0.0, 0.0, 1.0];
+        this.color = [1.0, 1.0, 1.0, 1.0];
         this.size = 5.0;
     }
     
@@ -10,9 +10,6 @@ class Point {
         var xy = this.position;
         var rgba = this.color;
         var size = this.size;
-        // var xy = g_points[i];
-        // var rgba = g_colors[i];
-        // var size = g_sizes[i];
 
         gl.disableVertexAttribArray(a_Position);
     
