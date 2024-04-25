@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Assignment 1</title>
+</head>
+
+<body onload="main()">
+    <canvas id="webgl" width="400" height="400">
+        Please use a browser that supports "canvas"
+    </canvas>
+
+    <!-- <img src="lib/car_drawing.jpg" alt="Drawing of a car using triangles" width="400" height="400"> -->
+
+    <p>
+    
+    <button id="stats">Statistics</button>
+    <button id="drawing">Show Drawing</button>
+    <p id="numdot"></p>
+
+    <p>
+
+    <button id="clear">Clear Canvas</button>
+    <button id="undo">Undo</button>
+    <p>
+
+    <!-- <button id="circle">Circles</button> -->
+
+    <p>Shape Color:</p>
+    <label for="magenta_slider">Magenta</label>
+    <input name="magenta" id="magenta_slider" type="range" min="-45" max="45" step="1" value="0"/>
+    <button id="on_animMag">ON</button>
+    <button id="off_animMag">OFF</button>
+    <!--
+    <label for="green_slider">Green</label>
+    <input name="green" id="green_slider" type="range" min="0" max="255" step="1" value="255"/>
+    <input id="green_val" type="number" min="0" max="255" value="255"/>
+
+    <label for="blue_slider">Blue</label>
+    <input name="blue" id="blue_slider" type="range" min="0" max="255" step="1" value="255"/>
+    <input id="blue_val" type="number" min="0" max="255" value="255"/>
+    
+    <label for="alpha_slider">Transparancy</label>
+    <input name="alpha" id="alpha_slider" type="range" min="0" max="100" step="1" value="100"/>
+    <p> -->
+
+    <p></p>
+    <label for="camera_slider">Camera Slider</label>
+    <input name="camera" id="camera_slider" type="range" min="0" max="90" step="1" value="1"/>
+
+    <p></p>
+    <label for="yellow_slider">Yellow</label>
+    <input name="yellow" id="yellow_slider" type="range" min="-45" max="45" step="1" value="0"/>
+
+    <button id="on_animYellow">ON</button>
+    <button id="off_animYellow">OFF</button>
+    <!-- <button id="rainbow">Rainbow Coloring</button> -->
+
+    <h3>Miguel Sanchez Reyes</h3>
+    <h3>msanc158@ucsc.edu</h3>
+
+    <h3>Notes to Grader:</h3>
+    <script src="lib/webgl-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/cuon-matrix-cse160.js"></script>
+    <script src="lib/point.js"></script>
+    <script src="lib/triangle.js"></script>
+    <script src="lib/circle.js"></script>
+    <script src="lib/cube.js"></script>
+    <script src="asg2.js"></script>
+</body>
+</html>
