@@ -17,6 +17,7 @@ var FSHADER_SOURCE = `
     gl_FragColor = u_FragColor;
   }`;
 
+
 // Global variables
 let canvas;
 let gl;
@@ -24,6 +25,7 @@ let a_Position;
 let u_FragColor;
 let u_ModelMatrix;
 let u_GlobalRotateMatrix;
+
 
 // Setup WebGL
 function setupWebGL() {
@@ -40,6 +42,7 @@ function setupWebGL() {
 
   gl.enable(gl.DEPTH_TEST);
 }
+
 
 // Initialize shaders and connect JS Variables to GLSL
 function connectVariablesToGLSL() {
@@ -85,59 +88,42 @@ function connectVariablesToGLSL() {
   gl.uniformMatrix4fv(u_ModelMatrix, false, identityM.elements);
 }
 
-// Constants
-const POINT = 0;
-const TRIANGLE = 1;
-const CIRCLE = 2;
 
 // Global variables related to UI elements
-// let g_selectedColor = [1.0, 1.0, 1.0, 1.0];
-// // let g_selectedColorCopy = [];
-// let g_size = 5.0;
-// let g_selectedType = POINT;
-// let g_count = 10; // Number of segments on a circle
 let g_stats = 0; // Debug stats
-let g_globalAngle = 0;
-// let g_rainbow = false; // Rainbow Toggle (false = off, true = on)
+
+let g_globalAngleX = 0;
+let g_globalAngleY = 0;
+
 let g_yellowAngle = 0;
-let g_magentaAngle = 0;
 let g_yellowAnimation = false;
+
+let g_magentaAngle = 0;
 let g_magentaAnimation = false;
+
+var x_val = 0;
+var y_val = 0;
+
 
 // Set up actions for the HTML UI elements
 function addActionsForHTMLUI() {
   
-  // Color Slider Events
-  document.getElementById('magenta_slider').addEventListener('mousemove', function() { g_magentaAngle = this.value; renderScene(); }  );
-  // document.getElementById('green_slider').addEventListener('mouseup', function() { g_selectedColor[1] = this.value/255; document.getElementById('green_val').value = this.value;}  );
-  // document.getElementById('blue_slider').addEventListener('mouseup', function() {g_selectedColor[2] = this.value/255; document.getElementById('blue_val').value = this.value;}  );
-  // document.getElementById('alpha_slider').addEventListener('mouseup', function() {g_selectedColor[3] = this.value/100; }  );
+  // Slider Events
+  document.getElementById('magenta_slider').addEventListener('mousemove', function() { g_magentaAngle = parseInt(this.value); renderScene(); }  );
+  document.getElementById('yellow_slider').addEventListener('mousemove', function() { g_yellowAngle = parseInt(this.value); renderScene(); });
+  document.getElementById('xcamera_slider').addEventListener('mousemove', function() { g_globalAngleX = parseInt(this.value); renderScene(); });
+  document.getElementById('ycamera_slider').addEventListener('mousemove', function() { g_globalAngleY = parseInt(this.value); renderScene(); });
 
-  // Size/Segment Slider Events
-  document.getElementById('camera_slider').addEventListener('mousemove', function() { g_globalAngle = this.value; renderScene(); });
-  document.getElementById('yellow_slider').addEventListener('mousemove', function() { g_yellowAngle = this.value; renderScene(); });
-
-  // Button Events (canvas manipulation)
-  document.getElementById('clear').onclick = function() { g_shapesList = []; renderScene(); };
-  document.getElementById('undo').onclick = function() { g_shapesList.pop(); renderScene(); };
-  // document.getElementById('rainbow').onclick = function() { rainbowToggle(); };
-
-  // Button Events (shape change)
+  // Button Events
   document.getElementById('on_animYellow').onclick = function() { g_yellowAnimation = true; };
   document.getElementById('off_animYellow').onclick = function() { g_yellowAnimation = false; };
   document.getElementById('on_animMag').onclick = function() { g_magentaAnimation = true; };
   document.getElementById('off_animMag').onclick = function() { g_magentaAnimation = false; };
-  // document.getElementById('circle').onclick = function() { g_selectedType = CIRCLE; };
 
   // Button Events (statistics and drawing)
   document.getElementById('stats').onclick = function() { g_stats = 1; };
-  document.getElementById('drawing').onclick = function() { drawImage();};
-  
-  // RGB Numerical Value Events
-  // document.getElementById('red_val').addEventListener('input', function () {g_selectedColor[0] = this.value/255; document.getElementById('red_slider').value = this.value; });
-  // document.getElementById('green_val').addEventListener('input', function() { g_selectedColor[1] = this.value/255; document.getElementById('green_slider').value = this.value;});
-  // document.getElementById('blue_val').addEventListener('input', function() {g_selectedColor[2] = this.value/255; document.getElementById('blue_slider').value = this.value;});
 }
+
 
 function main() {
   
@@ -151,29 +137,22 @@ function main() {
   addActionsForHTMLUI();
 
   // Register function (event handler) to be called on a mouse press/move
-  // canvas.onmousedown = click;
+  canvas.onmousedown = function(ev) { let [x, y] = convertCDEventToGL(ev); x_val = x; y_val = y; };
   // //canvas.onmousemove = mouseMove;
-  // canvas.onmousemove = function(ev) { if (ev.buttons == 1) { click(ev); }};
+  canvas.onmousemove = function(ev) {if (ev.buttons == 1) { click(ev); } };
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
 
   // Clear <canvas>
-  //gl.clear(gl.COLOR_BUFFER_BIT);
-  //renderScene();
   requestAnimationFrame(tick);
 }
 
-// // Global variables (list of shapes on canvas)
-// var g_shapesList = []; // The array containing the position of a mouse press and the color and size of a point
-// var cur_color = 0; // Value to decide what color increases/decreases
 
 var g_startTime = performance.now()/1000.0;
 var g_seconds = performance.now()/1000.0 - g_startTime;
-
 function tick() {
   g_seconds = performance.now()/1000.0-g_startTime;
-  console.log(g_seconds);
 
   updateAnimationAngles();
 
@@ -182,119 +161,216 @@ function tick() {
   requestAnimationFrame(tick);
 }
 
+
 function updateAnimationAngles() {
   if (g_yellowAnimation) {
     g_yellowAngle = (45*Math.sin(g_seconds));
+    document.getElementById('yellow_slider').value = g_yellowAngle;
   }
+
   if (g_magentaAnimation) {
     g_magentaAngle = (45*Math.sin(3*g_seconds));
+    document.getElementById('magenta_slider').value = g_magentaAngle;
   }
 }
 
-// function click(ev) {
-//   // Store the coordinates to g_points array
-//   let [x, y] = convertCDEventToGL(ev);
 
-//   // Create and store new point
-//   let point;
-//   if (g_selectedType == POINT) {
-//     point = new Point();
-//   } else if (g_selectedType == TRIANGLE) {
-//     point = new Triangle();
-//     point.settings = false;
-//   } else {
-//     point = new Circle();
-//     point.count = g_count;
-//   }
+function click(ev) {
+  var [x, y] = convertCDEventToGL(ev);
+  g_globalAngleX -= 150 * (x - x_val);
+  x_val = x;
+  
+  g_globalAngleY -= 150 * (y - y_val);
+  y_val = y;
+}
 
-//   point.position = [x, y];
 
-//   // Check for rainbow mode
-//   // if (g_rainbow) {
-//   //   rainbowMode();
-//   // }
+function convertCDEventToGL(ev) {
+  var x = ev.clientX; // x coordinate of a mouse pointer
+  var y = ev.clientY; // y coordinate of a mouse pointer
+  var rect = ev.target.getBoundingClientRect();
 
-//   point.color = g_selectedColor.slice();
-//   point.size = g_size;
+  x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
+  y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
+  return ([x, y]);
+}
 
-//   g_shapesList.push(point);
-
-//   renderScene();
-// }
-
-// function convertCDEventToGL(ev) {
-//   var x = ev.clientX; // x coordinate of a mouse pointer
-//   var y = ev.clientY; // y coordinate of a mouse pointer
-//   var rect = ev.target.getBoundingClientRect();
-
-//   x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
-//   y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
-//   return ([x, y]);
-// }
 
 function renderScene() {
   var startTime = performance.now(); // Debug information
 
-  var globalRotMat = new Matrix4().rotate(g_globalAngle,0,1,0);
+  var globalRotMat = new Matrix4().rotate(g_globalAngleX,0,1,0);
+  globalRotMat.rotate((g_globalAngleY % 360), 1, 0, 0);
+  globalRotMat.scale(0.9, 0.9, 0.9);
   gl.uniformMatrix4fv(u_GlobalRotateMatrix, false, globalRotMat.elements)
 
   // Clear <canvas>
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   gl.clear(gl.COLOR_BUFFER_BIT);
-  // Render shapes onto <canvas>
-  // var len = g_shapesList.length;
-  // for(var i = 0; i < len; i++) {
-  //   g_shapesList[i].render();
-  // }
 
-  var body = new Cube();
-  body.color = [1.0, 0.0, 0.0, 1.0];
-  body.matrix.translate(-.25, -.75, 0.0);
-  body.matrix.rotate(-5,1,0,0);
-  body.matrix.scale(0.5, 0.3, 0.5);
-  body.render();
+  // Head
+  var wolfFace = new Cube();
+  wolfFace.color = [0.8, 0.8, 0.8, 1.0];
+  wolfFace.matrix.translate(-0.2, -0.245, -0.575);
+  wolfFace.matrix.scale(0.4, 0.4, 0.175);
+  wolfFace.render();
 
-  var leftArm = new Cube();
-  leftArm.color = [1, 1, 0, 1];
-  leftArm.matrix.setTranslate(0, -0.5, 0.0);
-  leftArm.matrix.rotate(-5,1,0,0);
+  var wolfNose = new Cube();
+  wolfNose.color = [0.85, 0.83, 0.78, 1.0];
+  wolfNose.matrix.translate(-0.1, -0.245, -0.775);
+  wolfNose.matrix.scale(0.2, 0.2, 0.205);
+  wolfNose.render();
 
-  leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
+  // var wolfEarL = new Cube();
+  // wolfEarL.color = [0.85, 0.83, 0.78, 1.0];
+  // wolfNose.matrix.translate(-0.1, -0.245, -0.775);
+  // wolfNose.matrix.scale(0.2, 0.2, 0.205);
 
-  // if (g_yellowAnimation) {
-  //   leftArm.matrix.rotate(45*Math.sin(g_seconds),0,0,1);
-  // } else {
-  //   leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
-  // }
+  // var wolfEarR = new Cube();
+
+  // Body 
+  var wolfBodyPuffy = new Cube();
+  wolfBodyPuffy.color = [0.8, 0.8, 0.8, 1.0];
+  wolfBodyPuffy.matrix.translate(-0.25, -0.25, -0.4);
+  wolfBodyPuffy.matrix.scale(0.5, 0.45, 0.35);
+  wolfBodyPuffy.render();
+
+  var wolfBody = new Cube();
+  wolfBody.color = [0.8, 0.8, 0.8, 1.0];
+  wolfBody.matrix.translate(-0.2, -0.245, -0.1);
+  wolfBody.matrix.scale(0.4, 0.4, 0.6);
+  wolfBody.render();
+
+  var wolfTail = new Cube();
+  wolfTail.color = [0.8, 0.8, 0.8, 1.0];
+  wolfTail.matrix.translate(-0.05, 0, 0.425);
+  wolfTail.matrix.rotate(90, 1, 0, 0);
+  wolfTail.matrix.rotate(-g_magentaAngle, 0, 0, 1);
+  wolfTail.matrix.scale(0.1, 0.45, 0.1);
+  wolfTail.render();
+
+  // Upper Legs
+  // var wolfUpLegLT = new Cube();
+  // wolfUpLegLT.color = [0.8, 0.8, 0.8, 1.0];
+  // wolfUpLegLT.matrix.translate(0.075, -0.475, -0.4);
+  // wolfUpLegLT.matrix.rotate(-g_yellowAngle, 1, 0, 0);
+  // var LeftLegJoint = new Matrix4(wolfUpLegLT.matrix);
+  // wolfUpLegLT.matrix.scale(0.125, 0.225, 0.125);
+  // wolfUpLegLT.render();
+
+  // var wolfUpLegLB = new Cube();
+  // wolfUpLegLB.color = [0.8, 0.8, 0.8, 1.0];
+  // wolfUpLegLB.matrix = LeftLegJoint;
+  // wolfUpLegLB.matrix.translate(0, -0.225, 0);
+  // wolfUpLegLB.matrix.rotate(-g_magentaAngle, 1, 1, 1);
+  // wolfUpLegLB.matrix.scale(0.125, 0.225, 0.125);
+  // wolfUpLegLB.render();
+
+  // var wolfUpLegRT = new Cube();
+  // wolfUpLegRT.color = [0.8, 0.8, 0.8, 1.0];
+  // wolfUpLegRT.matrix.translate(-0.2, -0.475, -0.4);
+  // wolfUpLegRT.matrix.scale(0.125, 0.225, 0.125);
+  // wolfUpLegRT.render();
+
+  // var wolfUpLegRB = new Cube();
+  // wolfUpLegRB.color = [0.8, 0.8, 0.8, 1.0];
+  // wolfUpLegRB.matrix.translate(-0.2, -0.7, -0.4);
+  // wolfUpLegRB.matrix.scale(0.125, 0.225, 0.125);
+  // wolfUpLegRB.render();
+
+  // Lower Legs
+  var wolfLowLegLT = new Cube();
+  wolfLowLegLT.color = [0.8, 0.8, 0.8, 1.0];
+
+  wolfLowLegLT.matrix.setTranslate(0.075, -0.08, 0.4999);
+  wolfLowLegLT.matrix.rotate(180, 1, 0, 0);
+  wolfLowLegLT.matrix.rotate(-g_yellowAngle, 1, 0, 0);
+  var LowLTtoLB = new Matrix4(wolfLowLegLT.matrix);
+  wolfLowLegLT.matrix.scale(0.125, 0.35, 0.125);
+
+  wolfLowLegLT.render();
+
+
+  var wolfLowLegLB = new Cube();
+  wolfLowLegLB.color = [0.8, 0.8, 0.8, 1.0];
+
+  wolfLowLegLB.matrix = LowLTtoLB;
+  wolfLowLegLB.matrix.translate(0, 0.35, 0);
+  wolfLowLegLB.matrix.rotate(-g_magentaAngle, 1, 0, 0);
+  wolfLowLegLB.matrix.scale(0.125, 0.23, 0.125);
+
+  wolfLowLegLB.render();
+
+
+  var wolfLowLegRT = new Cube();
+  wolfLowLegRT.color = [0.8, 0.8, 0.8, 1.0];
+
+  wolfLowLegRT.matrix.setTranslate(-0.2, -0.08, 0.4999);
+  wolfLowLegRT.matrix.rotate(180, 1, 0, 0);
+  wolfLowLegRT.matrix.rotate(-g_yellowAngle, 1, 0, 0);
+
+  var LowRTtoRB = new Matrix4(wolfLowLegRT.matrix);
+  wolfLowLegRT.matrix.scale(0.125, 0.35, 0.125);
+
+  wolfLowLegRT.render();
+
+
+  // var wolfLowLegRB = new Cube();
+  // wolfLowLegRB.color = [0.8, 0.8, 0.8, 1.0];
+  // wolfLowLegRB.matrix.translate(-0.2, -0.7, 0.375);
+  // wolfLowLegRB.matrix.scale(0.125, 0.23, 0.125);
+  // wolfLowLegRB.render();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   
-  var yellowCoordinates= new Matrix4(leftArm.matrix);
-  leftArm.matrix.scale(0.25, 0.7, 0.5);
-  leftArm.matrix.translate(-.5,0,0);
-  leftArm.render();
+    // var body = new Cube();
+  // body.color = [1.0, 0.0, 0.0, 1.0];
+  // body.matrix.translate(-.25, -.75, 0.0);
+  // body.matrix.rotate(-5,1,0,0);
+  // body.matrix.scale(0.5, 0.3, 0.5);
+  // body.render();
 
-  var box = new Cube();
-  box.color = [1,0,1,1];
-  box.matrix = yellowCoordinates;
-  box.matrix.translate(0, 0.65, 0);
-  box.matrix.rotate(-g_magentaAngle,0,0,1);
-  box.matrix.scale(.3,.3,.3);
-  box.matrix.translate(-.5,0, -0.001);
-  // box.matrix.translate(-.1,.1,0,0);
-  // box.matrix.rotate(-30,1,0,0);
-  // box.matrix.scale(0.2,0.4,.2);
-  box.render();
+  // var leftArm = new Cube();
+  // leftArm.color = [1, 1, 0, 1];
+  // leftArm.matrix.stTranslate(0, -1, 0.0);
+  // leftArm.matrix.rotate(-5,1,0,0);
+  // leftArm.matrix.rotate(-g_yellowAngle,0,0,1);
+
+  // var yellowCoordinates= new Matrix4(leftArm.matrix);
+
+  // leftArm.matrix.scale(0.25, 0.7, 0.5);
+  // leftArm.matrix.translate(-.5,0,0);
+  // leftArm.render();
+
+  // var box = new Cube();
+  // box.color = [1,0,1,1];
+  // box.matrix = yellowCoordinates;
+  // box.matrix.translate(0, 0.65, 0);
+  // box.matrix.rotate(-g_magentaAngle,0,0,1);
+  // box.matrix.scale(.3,.3,.3);
+  // box.matrix.translate(-.5,0, -0.001);
+  // box.render();
 
   // Debug information
   var duration = performance.now() - startTime;
-  // if (g_stats === 1) {
-  //   sendTextToHTML("numdot: " + len + " ms: " + Math.floor(duration) + " fps: " + Math.floor(1000/duration), "numdot");
-  // }
+  if (g_stats === 1) {
+    sendTextToHTML("fps: " + Math.floor(1000/duration), "numdot");
+  }
 }
-
-
-
-
 
 
 // Debug stats
