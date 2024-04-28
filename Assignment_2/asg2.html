@@ -26,26 +26,46 @@
     <button id="stats">Statistics</button>
     <p id="numdot"></p>
     
-    <p>
+    <h4>Body Sliders:</h4>
 
-    <p>Sliders:</p>
-    <label for="magenta_slider">Magenta</label>
-    <input name="magenta" id="magenta_slider" type="range" min="-45" max="45" step="1" value="0"/>
-    <button id="on_animMag">ON</button>
-    <button id="off_animMag">OFF</button>
+    <label for="legs_slider">Legs</label>
+    <input name="legs" id="legs_slider" type="range" min="-30" max="30" step="1" value="0"/>
+    <button id="res_animLegs">RESET</button>
+
+    <p></p>
+    <label for="on_animLegs">Leg Animation</label>
+    <button id="on_animLegs">ON</button>
+    <button id="off_animLegs">OFF</button>
 
     <p></p>
 
-    <label for="yellow_slider">Yellow</label>
-    <input name="yellow" id="yellow_slider" type="range" min="-45" max="45" step="1" value="0"/>
+    <label for="joint_slider">Leg Joint</label>
+    <input name="joint" id="joint_slider" type="range" min="0" max="90" step="1" value="0"/>
+    
+    <p></p>
 
-    <button id="on_animYellow">ON</button>
-    <button id="off_animYellow">OFF</button>
+    <label for="tail_sliderX">Tail X-rotation</label>
+    <input name="tailX" id="tail_sliderX" type="range" min="-45" max="45" step="1" value="15"/>
+
+    <label for="tail_sliderY">Tail Y-rotation</label>
+    <input name="tailY" id="tail_sliderY" type="range" min="-45" max="45" step="1" value="0"/>
+    <button id="res_animTail">RESET</button>
 
     <p></p>
+
+    <label for="on_animTail">Tail Animation</label>
+    <button id="on_animTail">ON</button>
+    <button id="off_animTail">OFF</button>
+    
+    <p></p>
+    <label for="on_animWalk">Walk Animation</label>
+    <button id="on_animWalk">ON</button>
+    <button id="off_animWalk">OFF</button>
+
+    <h4>Camera Sliders:</h4>
 
     <label for="xcamera_slider">Camera Slider X</label>
-    <input id="xcamera_slider" type="range" min="0" max="359" step="1" value="0"/>
+    <input id="xcamera_slider" type="range" min="0" max="359" step="1" value="30"/>
 
     <p></p>
 
