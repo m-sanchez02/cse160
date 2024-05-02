@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Assignment 3</title>
+    <style>
+        #xcamera_slider {
+            width: 300px;
+        }
+        #ycamera_slider {
+            width: 300px;
+        }
+        #zcamera_slider {
+            width: 300px;
+        }
+    </style>
+</head>
+
+<body onload="main()">
+    <canvas id="webgl" width="400" height="400">
+        Please use a browser that supports "canvas"
+    </canvas>
+
+    <p>
+    
+    <button id="stats">Statistics</button>
+    <p id="numdot"></p>
+    
+    <h4>Body Sliders:</h4>
+
+    <label for="legs_slider">Legs</label>
+    <input name="legs" id="legs_slider" type="range" min="-30" max="30" step="1" value="0"/>
+    <button id="res_animLegs">RESET</button>
+
+    <p></p>
+    <label for="on_animLegs">Leg Animation</label>
+    <button id="on_animLegs">ON</button>
+    <button id="off_animLegs">OFF</button>
+
+    <p></p>
+
+    <label for="joint_slider">Leg Joint</label>
+    <input name="joint" id="joint_slider" type="range" min="0" max="90" step="1" value="0"/>
+    
+    <p></p>
+
+    <label for="tail_sliderX">Tail X-rotation</label>
+    <input name="tailX" id="tail_sliderX" type="range" min="-45" max="45" step="1" value="15"/>
+
+    <label for="tail_sliderY">Tail Y-rotation</label>
+    <input name="tailY" id="tail_sliderY" type="range" min="-45" max="45" step="1" value="0"/>
+    <button id="res_animTail">RESET</button>
+
+    <p></p>
+
+    <label for="on_animTail">Tail Animation</label>
+    <button id="on_animTail">ON</button>
+    <button id="off_animTail">OFF</button>
+    
+    <p></p>
+    <label for="on_animWalk">Walk Animation</label>
+    <button id="on_animWalk">ON</button>
+    <button id="off_animWalk">OFF</button>
+
+    <h4>Camera Sliders:</h4>
+
+    <label for="xcamera_slider">Camera Slider X</label>
+    <input id="xcamera_slider" type="range" min="0" max="359" step="1" value="30"/>
+
+    <p></p>
+
+    <label for="ycamera_slider">Camera Slider Y</label>
+    <input id="ycamera_slider" type="range" min="0" max="359" step="1" value="0"/>
+    
+    <p></p>
+    
+    <!-- <button id="rainbow">Rainbow Coloring</button> -->
+
+    <h3>Miguel Sanchez Reyes</h3>
+    <h3>msanc158@ucsc.edu</h3>
+
+    <h3>Notes to Grader:</h3>
+    <script src="lib/webgl-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/cuon-matrix-cse160.js"></script>
+    <script src="lib/triangle.js"></script>
+    <script src="lib/circle.js"></script>
+    <script src="lib/cube.js"></script>
+    <script src="asg3.js"></script>
+</body>
+</html>
