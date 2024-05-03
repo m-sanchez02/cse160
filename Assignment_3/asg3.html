@@ -10,9 +10,9 @@
         #ycamera_slider {
             width: 300px;
         }
-        #zcamera_slider {
+        /* #zcamera_slider {
             width: 300px;
-        }
+        } */
     </style>
 </head>
 
@@ -26,46 +26,34 @@
     <button id="stats">Statistics</button>
     <p id="numdot"></p>
     
-    <h4>Body Sliders:</h4>
-
-    <label for="legs_slider">Legs</label>
-    <input name="legs" id="legs_slider" type="range" min="-30" max="30" step="1" value="0"/>
-    <button id="res_animLegs">RESET</button>
-
     <p></p>
-    <label for="on_animLegs">Leg Animation</label>
-    <button id="on_animLegs">ON</button>
-    <button id="off_animLegs">OFF</button>
+
+    <label>Long Box Animation</label>
+    <button id="on_animLong">ON</button>
+    <button id="off_animLong">OFF</button>
 
     <p></p>
 
-    <label for="joint_slider">Leg Joint</label>
-    <input name="joint" id="joint_slider" type="range" min="0" max="90" step="1" value="0"/>
+    <label>Long Box Rotation</label>
+    <input name="bottomBox" id="bottomBox" type="range" min="-45" max="45" step="1" value="0"/>
+
+    <p></p>
+
+    <label>Small Box Animation</label>
+    <button id="on_animSmall">ON</button>
+    <button id="off_animSmall">OFF</button>
     
     <p></p>
 
-    <label for="tail_sliderX">Tail X-rotation</label>
-    <input name="tailX" id="tail_sliderX" type="range" min="-45" max="45" step="1" value="15"/>
-
-    <label for="tail_sliderY">Tail Y-rotation</label>
-    <input name="tailY" id="tail_sliderY" type="range" min="-45" max="45" step="1" value="0"/>
-    <button id="res_animTail">RESET</button>
+    <label>Small Box Rotation</label>
+    <input name="topBox" id="topBox" type="range" min="-45" max="45" step="1" value="0"/>
 
     <p></p>
-
-    <label for="on_animTail">Tail Animation</label>
-    <button id="on_animTail">ON</button>
-    <button id="off_animTail">OFF</button>
-    
-    <p></p>
-    <label for="on_animWalk">Walk Animation</label>
-    <button id="on_animWalk">ON</button>
-    <button id="off_animWalk">OFF</button>
 
     <h4>Camera Sliders:</h4>
 
     <label for="xcamera_slider">Camera Slider X</label>
-    <input id="xcamera_slider" type="range" min="0" max="359" step="1" value="30"/>
+    <input id="xcamera_slider" type="range" min="0" max="359" step="1" value="180"/>
 
     <p></p>
 
@@ -74,12 +62,24 @@
     
     <p></p>
     
-    <!-- <button id="rainbow">Rainbow Coloring</button> -->
-
     <h3>Miguel Sanchez Reyes</h3>
     <h3>msanc158@ucsc.edu</h3>
 
     <h3>Notes to Grader:</h3>
+    <p>
+        I've implemented everything necessary for Assignment 3A: <br>
+        - Have a ground created with a flattened cube and a sky from a big cube. <br>
+        - Texture working on at least one object. <br>
+        - Texture on some objects and color on some other objects. All working together. <br>
+        - Multiple textures <br>
+        <br>
+        I have also implemented a few more features from assignment 3B: <br>
+        - Implement camera movement <br>
+        - Key commands for rotation work. Use Q (rotate left) & E (rotate right). <br>
+        - Perspective camera implemented <br>
+        <br>
+        The textures used were the sky.jpg that was used in the WebGL textbook and a simple grid image from Google Images.
+    </p>
     <script src="lib/webgl-utils.js"></script>
     <script src="lib/webgl-debug.js"></script>
     <script src="lib/cuon-utils.js"></script>
@@ -87,6 +87,7 @@
     <script src="lib/triangle.js"></script>
     <script src="lib/circle.js"></script>
     <script src="lib/cube.js"></script>
+    <script src="lib/camera.js"></script>
     <script src="asg3.js"></script>
 </body>
 </html>
