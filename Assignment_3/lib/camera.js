@@ -82,4 +82,18 @@ class Camera {
         this.g_at.set(this.g_eye);
         this.g_at.add(f_prime);
     }
+    
+    reset() {
+        this.g_eye.elements[0] = 0;
+        this.g_eye.elements[1] = 0;
+        this.g_eye.elements[2] = 2;
+
+        this.g_at.elements[0] = 0;
+        this.g_at.elemenets[1] = 0;
+        this.g_at.elements[2] = 0;
+
+        this.g_up.elements[0] = 0;
+        this.g_up.elemenets[1] = 1;
+        this.g_up.elements[2] = 0;
+    }
 }

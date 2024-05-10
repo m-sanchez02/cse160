@@ -212,13 +212,13 @@ let g_magentaAnimation = false;
 // Set up actions for the HTML UI elements
 function addActionsForHTMLUI() {
   // Slider Events
-  document.getElementById('bottomBox').addEventListener('mousemove', function() { g_longBoxAngle = parseInt(this.value); renderScene(); }  );
-  document.getElementById('topBox').addEventListener('mousemove', function() { g_smallBoxAngle = parseInt(this.value); renderScene(); });
+  // document.getElementById('bottomBox').addEventListener('mousemove', function() { g_longBoxAngle = parseInt(this.value); renderScene(); }  );
+  // document.getElementById('topBox').addEventListener('mousemove', function() { g_smallBoxAngle = parseInt(this.value); renderScene(); });
 
-  document.getElementById('on_animLong').onclick = function() { g_yellowAnimation = true; };
-  document.getElementById('off_animLong').onclick = function() { g_yellowAnimation = false; };
-  document.getElementById('on_animSmall').onclick = function() { g_magentaAnimation = true; };
-  document.getElementById('off_animSmall').onclick = function() { g_magentaAnimation = false; };
+  document.getElementById('resetPos').onclick = function() { camera.reset() };
+  // document.getElementById('off_animLong').onclick = function() { g_yellowAnimation = false; };
+  // document.getElementById('on_animSmall').onclick = function() { g_magentaAnimation = true; };
+  // document.getElementById('off_animSmall').onclick = function() { g_magentaAnimation = false; };
 
   //document.getElementById('xcamera_slider').addEventListener('mousemove', function() { g_globalAngleX = parseInt(this.value); renderScene(); });
   //document.getElementById('ycamera_slider').addEventListener('mousemove', function() { g_globalAngleY = parseInt(this.value); renderScene(); });
@@ -238,12 +238,6 @@ function main() {
   // Set up actions for the HTML UI elements
   addActionsForHTMLUI();
 
-  // OLD CODE FROM BLOCKY ANIMAL
-  // Register function (event handler) to be called on a mouse press/move
-  // canvas.onmousedown = function(ev) { 
-  //   let [x, y] = convertCDEventToGL(ev); x_val = x; y_val = y; 
-  // };
-
   document.onkeydown = keydown;
   document.onkeyup = keyup;
 
@@ -251,8 +245,6 @@ function main() {
   
   canvas.addEventListener("click", async() => {  await canvas.requestPointerLock(); });
   canvas.addEventListener("mousemove", mouseMovement);
-  
-  //canvas.onmousemove = function(ev) {if (ev.buttons == 1) { click(ev); } };
 
   // Specify the color for clearing <canvas>
   gl.clearColor(0.0, 0.0, 0.0, 1.0);
@@ -312,18 +304,6 @@ function updateAnimationAngles() {
   }
 }
 
-
-// OLD CODE FROM BLOCKY ANIMAL
-// function click(ev) {
-//   var [x, y] = convertCDEventToGL(ev);
-//   g_globalAngleX -= 150 * (x - x_val);
-//   x_val = x;
-  
-//   g_globalAngleY -= 150 * (y - y_val);
-//   y_val = y;
-// }
-
-
 var forward = false;
 var backward = false;
 var left = false;
@@ -351,7 +331,10 @@ function keydown(ev) {
     panR = true;
   }
   if (ev.keyCode == 16) {
-    camera.mult = 0.06;
+    camera.mult = 0.04;
+  }
+  if (ev.keyCode == 82) {
+    camera.reset();
   }
 }
 
@@ -399,17 +382,6 @@ function cameraMovement() {
     camera.panRight(1);
   }
 }
-
-// OLD CODE FROM BLOCKY ANIMAL
-// function convertCDEventToGL(ev) {
-//   var x = ev.clientX; // x coordinate of a mouse pointer
-//   var y = ev.clientY; // y coordinate of a mouse pointer
-//   var rect = ev.target.getBoundingClientRect();
-
-//   x = ((x - rect.left) - canvas.width/2)/(canvas.width/2);
-//   y = (canvas.height/2 - (y - rect.top))/(canvas.height/2);
-//   return ([x, y]);
-// }
 
 function renderScene() {
   var startTime = performance.now(); // Debug information
@@ -462,46 +434,14 @@ function renderScene() {
   skybox.matrix.translate(-.5, -.5, -0.5);
   skybox.renderFaster();
 
-
-  // // Base
-  // var body = new Cube();
-  // body.color = [1.0,0.0,0.0,1.0];
-  // body.textureNum = 0;
-  // body.matrix.translate(-.25, -.75, 0.0);
-  // body.matrix.rotate(-5, 1, 0, 0);
-  // body.matrix.scale(0.5, .3, .5);
-  // body.renderFaster();
-
-  // // Long Box
-  // var leftArm = new Cube();
-  // leftArm.color = [1, 1, 0, 1];
-  // leftArm.textureNum = -1;
-  // leftArm.matrix.setTranslate(0, -.5, 0.0);
-  // leftArm.matrix.rotate(-5, 1, 0, 0);
-  // leftArm.matrix.rotate(g_longBoxAngle, 0, 0, 1);
-  // var yellowCoordinatesMat = new Matrix4(leftArm.matrix);
-  // leftArm.matrix.scale(0.25, .7, .5);
-  // leftArm.matrix.translate(-.5, 0, 0);
-  // leftArm.renderFaster();
-
-  
-  // // Small Box
-  // var box = new Cube();
-  // box.color = [1, 0, 1, 1];
-  // box.textureNum = 0;
-  // box.matrix = yellowCoordinatesMat;
-  // box.matrix.translate(0, 0.65, 0);
-  // box.matrix.rotate(g_smallBoxAngle, 0, 0, 1);
-  // box.matrix.scale(.3, .3, .3);
-  // box.matrix.translate(-.5, 0, -0.001);
-  // box.renderFaster();
-
   drawMap();
 
   // Debug information
   var duration = performance.now() - startTime;
   
   sendTextToHTML("ms: " + Math.ceil(duration) + " fps: " + Math.floor(fps), "numdot");
+  sendTextToHTML("X: "+ camera.g_eye.elements[2].toPrecision(3), "x_coord");
+  sendTextToHTML("Z: "+ camera.g_eye.elements[0].toPrecision(3), "z_coord");
 }
 
 

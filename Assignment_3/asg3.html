@@ -24,11 +24,13 @@
     
     <p></p>
 
-    <label>Long Box Animation</label>
-    <button id="on_animLong">ON</button>
-    <button id="off_animLong">OFF</button>
-
+    <p id="x_coord"></p>
+    <p id="z_coord"></p>
+    
     <p></p>
+    <button id="resetPos">Reset to Beginning</button> or press R
+
+    <!-- <p></p>
 
     <label>Long Box Rotation</label>
     <input name="bottomBox" id="bottomBox" type="range" min="-45" max="45" step="1" value="0"/>
@@ -42,7 +44,7 @@
     <p></p>
 
     <label>Small Box Rotation</label>
-    <input name="topBox" id="topBox" type="range" min="-45" max="45" step="1" value="0"/>
+    <input name="topBox" id="topBox" type="range" min="-45" max="45" step="1" value="0"/> -->
 
     <p></p>
 
@@ -63,18 +65,20 @@
 
     <h3>Notes to Grader:</h3>
     <p>
-        I've implemented everything necessary for Assignment 3A: <br>
+        I've implemented the following for Assignment 3: <br>
         - Have a ground created with a flattened cube and a sky from a big cube. <br>
         - Texture working on at least one object. <br>
         - Texture on some objects and color on some other objects. All working together. <br>
-        - Multiple textures <br>
-        <br>
-        I have also implemented a few more features from assignment 3B: <br>
         - Implement camera movement <br>
         - Key commands for rotation work. Use Q (rotate left) & E (rotate right). <br>
         - Perspective camera implemented <br>
+        - World is implemented. There is some interesting world to walk around. <br>
+        - Rotate camera with the mouse <br>
+        - Multiple textures <br>
+        - Add simple story or game to world <br>
+        - Performance <br>
         <br>
-        The textures used were the sky.jpg that was used in the WebGL textbook and a simple grid image from Google Images.
+        The textures used were from Google Images. 
     </p>
     <script src="lib/webgl-utils.js"></script>
     <script src="lib/webgl-debug.js"></script>
