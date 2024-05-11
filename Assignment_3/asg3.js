@@ -211,19 +211,7 @@ let g_magentaAnimation = false;
 
 // Set up actions for the HTML UI elements
 function addActionsForHTMLUI() {
-  // Slider Events
-  // document.getElementById('bottomBox').addEventListener('mousemove', function() { g_longBoxAngle = parseInt(this.value); renderScene(); }  );
-  // document.getElementById('topBox').addEventListener('mousemove', function() { g_smallBoxAngle = parseInt(this.value); renderScene(); });
-
   document.getElementById('resetPos').onclick = function() { camera.reset() };
-  // document.getElementById('off_animLong').onclick = function() { g_yellowAnimation = false; };
-  // document.getElementById('on_animSmall').onclick = function() { g_magentaAnimation = true; };
-  // document.getElementById('off_animSmall').onclick = function() { g_magentaAnimation = false; };
-
-  //document.getElementById('xcamera_slider').addEventListener('mousemove', function() { g_globalAngleX = parseInt(this.value); renderScene(); });
-  //document.getElementById('ycamera_slider').addEventListener('mousemove', function() { g_globalAngleY = parseInt(this.value); renderScene(); });
-
-  // Button Events (statistics and drawing)
 }
 
 
@@ -294,14 +282,11 @@ function tick(timestamp) {
 }
 
 function updateAnimationAngles() {
-  if (g_yellowAnimation) {
-    g_longBoxAngle = (45*Math.sin(g_seconds));
-    document.getElementById('bottomBox').value = g_longBoxAngle;
-  }
-  if (g_magentaAnimation) {
-    g_smallBoxAngle = (45*Math.sin(3*g_seconds));
-    document.getElementById('topBox').value = g_smallBoxAngle;
-  }
+  g_legsAngle = 30*(1-Math.sin(5*g_seconds));
+  g_tailAngleY = (45*Math.sin(8*g_seconds));
+  g_bodyTransform = (1-Math.sin(5*g_seconds))/3;
+  g_headTransform = -(0.03*Math.sin(5*g_seconds));
+  g_bodyRotate += 0.5;
 }
 
 var forward = false;
@@ -331,7 +316,7 @@ function keydown(ev) {
     panR = true;
   }
   if (ev.keyCode == 16) {
-    camera.mult = 0.04;
+    camera.mult = 0.1;
   }
   if (ev.keyCode == 82) {
     camera.reset();
@@ -421,7 +406,7 @@ function renderScene() {
   floor.color = [1.0, 1.0, 1.0, 1.0];
   floor.textureNum = 1;
   floor.matrix.translate(0, -.75, 0.0);
-  floor.matrix.scale(29,-.25, 29);
+  floor.matrix.scale(36,-.25, 36);
   floor.matrix.translate(-.5, 0, -0.5);
   floor.renderFaster();
 
@@ -430,11 +415,15 @@ function renderScene() {
   var skybox = new Cube();
   skybox.color = [135/255, 206/255, 235/255, 1.0];
   skybox.textureNum = -2;
-  skybox.matrix.scale(50, 50, 50);
+  skybox.matrix.scale(60, 60, 60);
   skybox.matrix.translate(-.5, -.5, -0.5);
   skybox.renderFaster();
 
+
+  // Draw cubes (walls and border)
   drawMap();
+
+  renderDog();
 
   // Debug information
   var duration = performance.now() - startTime;
