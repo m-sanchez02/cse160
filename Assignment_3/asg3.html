@@ -4,82 +4,105 @@
     <meta charset="utf-8" />
     <title>Assignment 3</title>
     <style>
-        #xcamera_slider {
-            width: 300px;
+        #sensitivity_slider {
+            width: 200px;
         }
-        #ycamera_slider {
-            width: 300px;
+        #fov_slider {
+            width: 200px;
+        }
+        #webgl {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        #div2 {
+            text-align: center;
+        }
+        /* CSS code from w3schools https://www.w3schools.com/howto/howto_css_two_columns.asp */
+        .column {
+            float: left;
+            width: 25%;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
         }
     </style>
 </head>
 
-<body onload="main()">
-    <canvas id="webgl" width="400" height="400">
-        Please use a browser that supports "canvas"
-    </canvas>
+<body onload="main()" id="body">
+    <div class="row">
+        <div class="column">
+            <h3>Miguel Sanchez Reyes</h3>
+            <h3>msanc158@ucsc.edu</h3>
 
-    <p>
-    
-    <p id="numdot"></p>
-    
-    <p></p>
+            <h3>Notes to Grader:</h3>
+            <p>
+                I've implemented the following for Assignment 3: <br>
+                - Have a ground created with a flattened cube and a sky from a big cube. <br>
+                - Texture working on at least one object. <br>
+                - Texture on some objects and color on some other objects. All working together. <br>
+                - Implement camera movement <br>
+                - Key commands for rotation work. Use Q (rotate left) & E (rotate right). <br>
+                - Perspective camera implemented <br>
+                - World is implemented. There is some interesting world to walk around. <br>
+                - Rotate camera with the mouse <br>
+                - Multiple textures <br>
+                - Add simple story or game to world <br>
+                - Performance <br>
+                <br>
+                There is unfortunately no collision detection so you are able to phase through the walls.
+                <br><br>
+                The textures used were from Google Images. 
+            </p>
+        </div>
+        <div class="column">
+            <canvas id="webgl" width="400" height="400">
+                Please use a browser that supports "canvas"
+            </canvas>
+        </div>
+        <div class="column">
+            <div id="div2">
+                <h2>The Brick Maze</h2>
+                <h4>Traverse through the maze to find the exit and reunite with your wolf!</h4>
+                <p>
+                    <b>Controls:</b> <br>
+                    Forward: W <br>
+                    Backward: A <br>
+                    Left: S <br>
+                    Right: D <br>
+                    Pan Left: Q <br>
+                    Pan Right: E <br>
+                    Sprint: Hold SHIFT while moving
+                </p>
 
-    <p id="x_coord"></p>
-    <p id="z_coord"></p>
-    
-    <p></p>
-    <button id="resetPos">Reset to Beginning</button> or press R
+                
+                <p id="numdot" style="display: inline"></p>
 
-    <!-- <p></p>
+                |
 
-    <label>Long Box Rotation</label>
-    <input name="bottomBox" id="bottomBox" type="range" min="-45" max="45" step="1" value="0"/>
+                <p id="x_coord" style="display: inline"></p>
+                <p id="z_coord" style="display: inline"></p>
+                
+                <p></p>
+                <button id="resetPos" >Reset to Beginning</button> or press R
 
-    <p></p>
+                <h4>Settings:</h4>
 
-    <label>Small Box Animation</label>
-    <button id="on_animSmall">ON</button>
-    <button id="off_animSmall">OFF</button>
-    
-    <p></p>
+                <label for="fov_slider">Field of View:</label>
+                <input id="fov_slider" type="range" min="30" max="90" step="1" value="60"/>
 
-    <label>Small Box Rotation</label>
-    <input name="topBox" id="topBox" type="range" min="-45" max="45" step="1" value="0"/> -->
+                <p></p>
 
-    <p></p>
+                <label for="speed_slider">Sprint Speed:</label>
+                <input id="speed_slider" type="range" min="0" max="0.5" step="0.01" value="0"/>
+            </div>
+        </div>
+    </div>
 
-    <!-- <h4>Camera Sliders:</h4>
-
-    <label for="xcamera_slider">Camera Slider X</label>
-    <input id="xcamera_slider" type="range" min="0" max="359" step="1" value="180"/>
-
-    <p></p>
-
-    <label for="ycamera_slider">Camera Slider Y</label>
-    <input id="ycamera_slider" type="range" min="0" max="359" step="1" value="0"/>
-    
-    <p></p> -->
-    
-    <h3>Miguel Sanchez Reyes</h3>
-    <h3>msanc158@ucsc.edu</h3>
-
-    <h3>Notes to Grader:</h3>
-    <p>
-        I've implemented the following for Assignment 3: <br>
-        - Have a ground created with a flattened cube and a sky from a big cube. <br>
-        - Texture working on at least one object. <br>
-        - Texture on some objects and color on some other objects. All working together. <br>
-        - Implement camera movement <br>
-        - Key commands for rotation work. Use Q (rotate left) & E (rotate right). <br>
-        - Perspective camera implemented <br>
-        - World is implemented. There is some interesting world to walk around. <br>
-        - Rotate camera with the mouse <br>
-        - Multiple textures <br>
-        - Add simple story or game to world <br>
-        - Performance <br>
-        <br>
-        The textures used were from Google Images. 
-    </p>
     <script src="lib/webgl-utils.js"></script>
     <script src="lib/webgl-debug.js"></script>
     <script src="lib/cuon-utils.js"></script>
