@@ -202,16 +202,14 @@ function connectVariablesToGLSL() {
 let g_globalAngleX = 180;
 let g_globalAngleY = 0;
 
-let g_sprintSpeed = 0;
 let g_FOV = 60;
-let g_mouseSensitivity = 0.1;
+
 
 
 // Set up actions for the HTML UI elements
 function addActionsForHTMLUI() {
   document.getElementById('resetPos').onclick = function() { camera.reset() };
-  
-  document.getElementById('speed_slider').addEventListener('mousemove', function() { g_sprintSpeed = parseInt(this.value); });
+
   document.getElementById('fov_slider').addEventListener('mousemove', function() { camera.fov = parseInt(this.value); });
 }
 
@@ -246,9 +244,9 @@ function main() {
 function mouseMovement(event) {
   if (document.pointerLockElement == canvas) {
     if (event.movementX < 0) {
-      camera.panLeft(-event.movementX * g_mouseSensitivity);
+      camera.panLeft(-event.movementX * 0.1);
     } else {
-      camera.panRight(event.movementX * g_mouseSensitivity);
+      camera.panRight(event.movementX * 0.1);
     }
     if (event.movementX > 50 || event.movementX < -50) {
       console.log(event.movementX);
@@ -317,7 +315,8 @@ function keydown(ev) {
     panR = true;
   }
   if (ev.keyCode == 16) {
-    camera.mult = 0.1 + g_sprintSpeed;
+    camera.mult = 0.05;
+    console.log(camera.mult);
   }
   if (ev.keyCode == 82) {
     camera.reset();
