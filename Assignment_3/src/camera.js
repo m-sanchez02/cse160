@@ -82,18 +82,51 @@ class Camera {
         this.g_at.set(this.g_eye);
         this.g_at.add(f_prime);
     }
-    
+
+    panUp(alpha) {
+        var f = new Vector3();
+        f.set(this.g_at);
+        f.sub(this.g_eye);
+
+        // Code on line 93 derived from HOF entry "Minecraft: Home Edition" by jwdicker 
+        // https://people.ucsc.edu/~jwdicker/Asgn3/BlockyWorld.html
+        var newG_UP = Vector3.cross(f, this.g_up);
+
+        var rotationMatrix = new Matrix4();
+        rotationMatrix.setRotate(alpha, newG_UP.elements[0], newG_UP.elements[1], newG_UP.elements[2]);
+        var f_prime = rotationMatrix.multiplyVector3(f);
+
+        this.g_at.set(this.g_eye);
+        this.g_at.add(f_prime);
+    }
+    panDown(alpha) {
+        var f = new Vector3();
+        f.set(this.g_at);
+        f.sub(this.g_eye);
+
+        // Code on line 109 derived from HOF entry "Minecraft: Home Edition" by jwdicker 
+        // https://people.ucsc.edu/~jwdicker/Asgn3/BlockyWorld.html
+        var newG_UP = Vector3.cross(f, this.g_up);
+
+        var rotationMatrix = new Matrix4();
+        rotationMatrix.setRotate(-alpha, newG_UP.elements[0], newG_UP.elements[1], newG_UP.elements[2]);
+        var f_prime = rotationMatrix.multiplyVector3(f);
+
+        this.g_at.set(this.g_eye);
+        this.g_at.add(f_prime);
+    }
+
     reset() {
         this.g_eye.elements[0] = 0;
         this.g_eye.elements[1] = 0;
         this.g_eye.elements[2] = 2;
 
         this.g_at.elements[0] = 0;
-        this.g_at.elemenets[1] = 0;
+        this.g_at.elements[1] = 0;
         this.g_at.elements[2] = 0;
 
         this.g_up.elements[0] = 0;
-        this.g_up.elemenets[1] = 1;
+        this.g_up.elements[1] = 1;
         this.g_up.elements[2] = 0;
     }
 }

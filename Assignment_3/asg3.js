@@ -248,8 +248,16 @@ function mouseMovement(event) {
     } else {
       camera.panRight(event.movementX * 0.1);
     }
+    if (event.movementY < 0) {
+      camera.panUp(-event.movementY * 0.1);
+    } else {
+      camera.panDown(event.movementY * 0.1);
+    }
     if (event.movementX > 50 || event.movementX < -50) {
       console.log(event.movementX);
+    }
+    if (event.movementY > 50 || event.movementY < -50) {
+      console.log(event.movementY);
     }
   }
 }
@@ -316,7 +324,6 @@ function keydown(ev) {
   }
   if (ev.keyCode == 16) {
     camera.mult = 0.05;
-    console.log(camera.mult);
   }
   if (ev.keyCode == 82) {
     camera.reset();
