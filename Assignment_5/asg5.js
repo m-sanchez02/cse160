@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import {OBJLoader} from 'three/addons/loaders/OBJLoader.js';
 import {MTLLoader} from 'three/addons/loaders/MTLLoader.js';
-import {PointerLockControls} from '../resources/modifiedAddons/PointerLockControls.js';
+import {PointerLockControls} from '../../resources/modifiedAddons/PointerLockControls.js';
 
 // Code built off of the Three.js manual and documentation, links provide on the Canvas for the assignment
 function main() {
