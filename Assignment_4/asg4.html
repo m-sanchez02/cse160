@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Assignment 4</title>
+    <style>
+        #sensitivity_slider {
+            width: 200px;
+        }
+        #fov_slider {
+            width: 200px;
+        }
+        #webgl {
+            padding-left: 0;
+            padding-right: 0;
+            margin-left: auto;
+            margin-right: auto;
+            display: block;
+        }
+        #div2 {
+            text-align: center;
+        }
+        /* CSS code below is from w3schools. Source: https://www.w3schools.com/howto/howto_css_two_columns.asp */
+        .column {
+            float: left;
+            width: 25%;
+        }
+        .row:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+    </style>
+</head>
+
+<body onload="main()" id="body">
+    <div class="row">
+        <div class="column">
+            <h3>Miguel Sanchez Reyes</h3>
+            <h3>msanc158@ucsc.edu</h3>
+
+            <h3>Notes to Grader:</h3>
+            <p></p>
+        </div>
+        <div class="column">
+            <canvas id="webgl" width="400" height="400">
+                Please use a browser that supports "canvas"
+            </canvas>
+        </div>
+    </div>
+    <h2>Assignment 4: Lighting</h2>
+    <p>
+        <b>Controls:</b> <br>
+        Forward: W <br>
+        Backward: S <br>
+        Left: A <br>
+        Right: D <br>
+        Pan Left: Q <br>
+        Pan Right: E <br>
+        Sprint: Hold SHIFT while moving
+        <br><br>
+        Click on the canvas to control camera pan using the mouse. <br>
+    </p>
+
+    <p id="numdot" style="display: inline"></p>
+
+    |
+
+    <p id="x_coord" style="display: inline"></p>
+    <p id="z_coord" style="display: inline"></p>
+    
+    <p></p>
+    <button id="resetPos" >Reset to Beginning</button> or press R
+    
+    <h4>Settings:</h4>
+
+    <label for="fov_slider">Field of View:</label>
+    <input id="fov_slider" type="range" min="30" max="90" step="1" value="60"/>
+    <p></p>
+    <label>Normals:</label>
+    <button id="normalOn">ON</button>
+    <button id="normalOff">OFF</button>
+
+    <script src="lib/webgl-utils.js"></script>
+    <script src="lib/webgl-debug.js"></script>
+    <script src="lib/cuon-utils.js"></script>
+    <script src="lib/cuon-matrix-cse160.js"></script>
+    <script src="src/triangle.js"></script>
+    <script src="src/circle.js"></script>
+    <script src="src/cube.js"></script>
+    <script src="src/camera.js"></script>
+    <script src="src/map.js"></script>
+    <script src="src/texture.js"></script>
+    <script src="src/dog.js"></script>
+    <script src="asg4.js"></script>
+</body>
+</html>
