@@ -32,6 +32,11 @@ class Sphere {
                 var p2 = [Math.sin(t+dd)*Math.cos(r), Math.sin(t+dd)*Math.sin(r), Math.cos(t+dd)];
                 var p3 = [Math.sin(t)*Math.cos(r+dd), Math.sin(t)*Math.sin(r+dd), Math.cos(t)];
                 var p4 = [Math.sin(t+dd)*Math.cos(r+dd), Math.sin(t+dd)*Math.sin(r+dd), Math.cos(t+dd)];
+                
+                var uv1 = [t/Math.PI, r/(2*Math.PI)];
+                var uv2 = [(t+dd)/Math.PI, r/(2*Math.PI)];
+                var uv3 = [t/Math.PI, (r+dd)/(2*Math.PI)];
+                var uv4 = [(t+dd)/Math.PI, (r+dd)/(2*Math.PI)];
 
                 var v = [];
                 v = v.concat(p1);
@@ -39,11 +44,11 @@ class Sphere {
                 v = v.concat(p4);
 
                 var uv = [];
-                uv = uv.concat([0, 0]);
-                uv = uv.concat([0, 0]);
-                uv = uv.concat([0, 0]);
+                uv = uv.concat(uv1);
+                uv = uv.concat(uv2);
+                uv = uv.concat(uv4);
                 
-                gl.uniform4f(u_FragColor, 1, 1, 1, 1);
+                gl.uniform4f(u_FragColor, 0, 1, 1, 1);
                 drawCubeUVNormal(v, uv, v, vertexBuffer, uvBuffer, normalBuffer);
 
                 v = [];
@@ -52,11 +57,11 @@ class Sphere {
                 v = v.concat(p3);
 
                 uv = [];
-                uv = uv.concat([0, 0]);
-                uv = uv.concat([0, 0]);
-                uv = uv.concat([0, 0]);
+                uv = uv.concat(uv1);
+                uv = uv.concat(uv4);
+                uv = uv.concat(uv3);
 
-                gl.uniform4f(u_FragColor, 1, 1, 1, 1);
+                gl.uniform4f(u_FragColor, 1, 0, 1, 1);
                 drawCubeUVNormal(v, uv, v, vertexBuffer, uvBuffer, normalBuffer);
             }
         }

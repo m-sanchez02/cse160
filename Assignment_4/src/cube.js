@@ -72,35 +72,25 @@ class Cube {
         drawCubeUVNormal( [0.0, 0.0, 0.0,   1.0, 1.0, 0.0,   1.0, 0.0, 0.0], [1,0, 0,1, 0,0], [0,0,-1,   0,0,-1,   0,0,-1], vertexBuffer, uvBuffer, normalBuffer);
         drawCubeUVNormal( [0.0, 0.0, 0.0,   0.0, 1.0, 0.0,   1.0, 1.0, 0.0], [1,0, 1,1, 0,1], [0,0,-1,   0,0,-1,   0,0,-1], vertexBuffer, uvBuffer, normalBuffer);
 
-        gl.uniform4f(u_FragColor, rgba[0]*.8, rgba[1]*.8, rgba[2]*.8, rgba[3]);
-
         // Back
-        drawCubeUVNormal( [1.0, 0.0, 1.0,   1.0, 1.0, 1.0,   0.0, 1.0, 1.0], [1,0, 1,1, 0,1], [0,1,0,   0,1,0,   0,1,0], vertexBuffer, uvBuffer, normalBuffer);
-        drawCubeUVNormal( [1.0, 0.0, 1.0,   0.0, 1.0, 1.0,   0.0, 0.0, 1.0], [1,0, 0,1, 0,0], [0,1,0,   0,1,0,   0,1,0], vertexBuffer, uvBuffer, normalBuffer);
+        drawCubeUVNormal( [1.0, 0.0, 1.0,   1.0, 1.0, 1.0,   0.0, 1.0, 1.0], [1,0, 1,1, 0,1], [0,0,1,   0,0,1,   0,0,1], vertexBuffer, uvBuffer, normalBuffer);
+        drawCubeUVNormal( [1.0, 0.0, 1.0,   0.0, 1.0, 1.0,   0.0, 0.0, 1.0], [1,0, 0,1, 0,0], [0,0,1,   0,0,1,   0,0,1], vertexBuffer, uvBuffer, normalBuffer);
 
-        gl.uniform4f(u_FragColor, rgba[0]*.9, rgba[1]*.9, rgba[2]*.9, rgba[3]);
-        
         // Right
         drawCubeUVNormal( [1.0, 0.0, 0.0,   1.0, 1.0, 0.0,   1.0, 1.0, 1.0], [1,0, 1,1, 0,1], [1,0,0,   1,0,0,   1,0,0], vertexBuffer, uvBuffer, normalBuffer);
         drawCubeUVNormal( [1.0, 0.0, 0.0,   1.0, 1.0, 1.0,   1.0, 0.0, 1.0], [1,0, 0,1, 0,0], [1,0,0,   1,0,0,   1,0,0], vertexBuffer, uvBuffer, normalBuffer);
         
-        gl.uniform4f(u_FragColor, rgba[0]*1.05, rgba[1]*1.05, rgba[2]*1.05, rgba[3]);
-
         // Left
         drawCubeUVNormal( [0.0, 0.0, 1.0,   0.0, 1.0, 1.0,   0.0, 1.0, 0.0], [1,0, 1,1, 0,1], [-1,0,0,   -1,0,0,   -1,0,0], vertexBuffer, uvBuffer, normalBuffer);
         drawCubeUVNormal( [0.0, 0.0, 1.0,   0.0, 1.0, 0.0,   0.0, 0.0, 0.0], [1,0, 0,1, 0,0], [-1,0,0,   -1,0,0,   -1,0,0], vertexBuffer, uvBuffer, normalBuffer);
         
-        gl.uniform4f(u_FragColor, rgba[0]*.75, rgba[1]*.75, rgba[2]*.75, rgba[3]);
-
         // Bottom
         drawCubeUVNormal( [1.0, 0.0, 0.0,   1.0, 0.0, 1.0,   0.0, 0.0, 1.0], [1,0, 1,1, 0,1], [0,-1,0,   0,-1,0,   0,-1,0], vertexBuffer, uvBuffer, normalBuffer);
         drawCubeUVNormal( [1.0, 0.0, 0.0,   0.0, 0.0, 1.0,   0.0, 0.0, 0.0], [1,0, 0,1, 0,0], [0,-1,0,   0,-1,0,   0,-1,0], vertexBuffer, uvBuffer, normalBuffer);
         
-        gl.uniform4f(u_FragColor, rgba[0]*1.1, rgba[1]*1.1, rgba[2]*1.1, rgba[3]);
-
         // Top
-        drawCubeUVNormal( [0.0, 1.0, 0.0,   0.0, 1.0, 1.0,   1.0, 1.0, 1.0], [1,0, 1,1, 0,1], [0,0,1,   0,0,1,   0,0,1], vertexBuffer, uvBuffer, normalBuffer);
-        drawCubeUVNormal( [0.0, 1.0, 0.0,   1.0, 1.0, 1.0,   1.0, 1.0, 0.0], [1,0, 0,1, 0,0], [0,0,1,   0,0,1,   0,0,1], vertexBuffer, uvBuffer, normalBuffer);
+        drawCubeUVNormal( [0.0, 1.0, 0.0,   0.0, 1.0, 1.0,   1.0, 1.0, 1.0], [1,0, 1,1, 0,1], [0,1,0,   0,1,0,   0,1,0], vertexBuffer, uvBuffer, normalBuffer);
+        drawCubeUVNormal( [0.0, 1.0, 0.0,   1.0, 1.0, 1.0,   1.0, 1.0, 0.0], [1,0, 0,1, 0,0], [0,1,0,   0,1,0,   0,1,0], vertexBuffer, uvBuffer, normalBuffer);
     }
 
     renderFast() {
