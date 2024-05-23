@@ -433,7 +433,7 @@ function renderScene() {
   floor.matrix.translate(0, -.75, 0.0);
   floor.matrix.scale(36,-.25, 36);
   floor.matrix.translate(-.5, 0, -0.5);
-  floor.renderFaster();
+  floor.render();
 
   // Test box
   var testBox = new Cube();
@@ -445,7 +445,7 @@ function renderScene() {
   }
   testBox.matrix.scale(2, 2, 2);
   testBox.matrix.translate(0.4, 0, 0);
-  testBox.renderFaster();
+  //testBox.renderFaster();
   
   // Skybox
   var skybox = new Cube();
@@ -457,13 +457,20 @@ function renderScene() {
   }
   skybox.matrix.scale(-40, -40, -40);
   skybox.matrix.translate(-.5, -.5, -0.5);
-  skybox.renderFaster();
+  skybox.render();
 
 
   // Draw cubes (walls and border)
   drawMap();
 
   //renderDog();
+
+  // Sphere
+  var roundSphere = new Sphere();
+  roundSphere.render();
+
+
+
 
   // Debug information
   var duration = performance.now() - startTime;

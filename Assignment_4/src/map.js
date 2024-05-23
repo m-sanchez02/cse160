@@ -57,7 +57,7 @@ function drawMap() {
                     } else {
                         boxes.matrix.translate(x-16, z, y-16);
                     }
-                    boxes.renderFaster();
+                    boxes.render();
                 }
             }
         }
