@@ -422,6 +422,8 @@ var left = false;
 var right = false;
 var panL = false;
 var panR = false;
+var panU = false;
+var panD = false;
 
 function keydown(ev) {
   if (ev.keyCode == 87) {
@@ -441,6 +443,12 @@ function keydown(ev) {
   }
   if (ev.keyCode == 69) {
     panR = true;
+  }
+  if (ev.keyCode == 90) {
+    panU = true;
+  }
+  if (ev.keyCode == 88) {
+    panD = true;
   }
   if (ev.keyCode == 16) {
     camera.mult = 0.125;
@@ -469,6 +477,12 @@ function keyup(ev) {
   if (ev.keyCode == 69) {
     panR = false;
   }
+  if (ev.keyCode == 90) {
+    panU = false;
+  }
+  if (ev.keyCode == 88) {
+    panD = false;
+  }
   if (ev.keyCode == 16) {
     camera.mult = 0.05;
   }
@@ -492,6 +506,12 @@ function cameraMovement() {
   }
   if (panR) {
     camera.panRight(1);
+  }
+  if (panU) {
+    camera.panUp(1);
+  }
+  if (panD) {
+    camera.panDown(1);
   }
 }
 
