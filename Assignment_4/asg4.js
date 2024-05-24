@@ -73,9 +73,12 @@ var FSHADER_SOURCE = `
 
     float specular = pow(max(dot(E,R), 0.0), 12.0);
 
-    gl_FragColor[0] -= (1.0 - u_LightColor[0]);
-    gl_FragColor[1] -= (1.0 - u_LightColor[1]);
-    gl_FragColor[2] -= (1.0 - u_LightColor[2]);
+    if (u_lightOn) {
+      gl_FragColor[0] -= (1.0 - u_LightColor[0]);
+      gl_FragColor[1] -= (1.0 - u_LightColor[1]);
+      gl_FragColor[2] -= (1.0 - u_LightColor[2]);
+    }
+
     vec3 diffuse = vec3(gl_FragColor) * nDotL * 0.7;
     vec3 ambient = vec3(gl_FragColor) * 0.3;
 
@@ -610,6 +613,9 @@ function renderScene() {
 
   // Draw cubes (walls and border)
   drawMap();
+
+  // Draw dog (shading is slightly weird)
+  renderDog();
 
   // Debug information
   var duration = performance.now() - startTime;
