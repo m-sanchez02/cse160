@@ -16,13 +16,13 @@ class Sphere {
 
         gl.uniformMatrix4fv(u_ModelMatrix, false, this.matrix.elements);
 
-        var vertexBuffer = gl.createBuffer();
-        var uvBuffer = gl.createBuffer();
-        var normalBuffer = gl.createBuffer();
-        if (!vertexBuffer || !uvBuffer || !normalBuffer) {
-            console.log('Failed to create/load the buffer object');
-            return -1;
-        }
+        // var vertexBuffer = gl.createBuffer();
+        // var uvBuffer = gl.createBuffer();
+        // var normalBuffer = gl.createBuffer();
+        // if (!vertexBuffer || !uvBuffer || !normalBuffer) {
+        //     console.log('Failed to create/load the buffer object');
+        //     return -1;
+        // }
 
         var d = Math.PI/10;
         var dd = Math.PI/10;
@@ -49,7 +49,8 @@ class Sphere {
                 uv = uv.concat(uv4);
                 
                 gl.uniform4f(u_FragColor, 0, 1, 1, 1);
-                drawCubeUVNormal(v, uv, v, vertexBuffer, uvBuffer, normalBuffer);
+                //drawCubeUVNormal(v, uv, v, vertexBuffer, uvBuffer, normalBuffer);
+                drawCubeFaster(v, uv, v);
 
                 v = [];
                 v = v.concat(p1);
@@ -62,7 +63,8 @@ class Sphere {
                 uv = uv.concat(uv3);
 
                 gl.uniform4f(u_FragColor, 1, 0, 1, 1);
-                drawCubeUVNormal(v, uv, v, vertexBuffer, uvBuffer, normalBuffer);
+                //drawCubeUVNormal(v, uv, v, vertexBuffer, uvBuffer, normalBuffer);
+                drawCubeFaster(v, uv, v);
             }
         }
     }

@@ -246,7 +246,8 @@ function initNormal() {
   gl.enableVertexAttribArray(a_Normal);
 }
 
-function drawCubeFaster(vertices, uv) {
+function drawCubeFaster(vertices, uv, normals) {
+
   var n = vertices.length/3;
   if (g_vertexBuffer == null) {
     initTriangle();
@@ -262,6 +263,17 @@ function drawCubeFaster(vertices, uv) {
   // Write date into the buffer object
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(uv), gl.DYNAMIC_DRAW);
   
+  if (g_normalBuffer == null) {
+    initNormal();
+  }
+
+  // Write date into the buffer object
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(normals), gl.DYNAMIC_DRAW);
+
   // Draw
   gl.drawArrays(gl.TRIANGLES, 0, n);
+
+  g_vertexBuffer = null;
+  g_uvBuffer = null;
+  g_normalBuffer = null;
 }

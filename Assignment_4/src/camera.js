@@ -4,7 +4,7 @@ class Camera {
         this.g_eye = new Vector3([0,0,2]);
         this.g_at = new Vector3([0,0,-100]);
         this.g_up = new Vector3([0,1,0]);
-        this.mult = 0.02;
+        this.mult = 0.05;
     }
     
     moveForward() {

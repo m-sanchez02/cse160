@@ -24,7 +24,7 @@ function renderDog() {
     var bodyToTail = new Matrix4(wolfBody.matrix);
     wolfBody.matrix.scale(0.4, 0.4, 0.6);
 
-    wolfBody.renderFaster();
+    wolfBody.render();
 
 
     var wolfBodyPuffy = new Cube();
@@ -36,7 +36,7 @@ function renderDog() {
     var puffyToHead = new Matrix4(wolfBodyPuffy.matrix);
     wolfBodyPuffy.matrix.scale(0.5, 0.45, 0.35);
 
-    wolfBodyPuffy.renderFaster();
+    wolfBodyPuffy.render();
 
 
     var wolfCollar = new Cube();
@@ -46,7 +46,7 @@ function renderDog() {
     wolfCollar.matrix.translate(0.005, 0.005, -0.0001);
     wolfCollar.matrix.scale(0.49, 0.44, 0.1);
 
-    wolfCollar.renderFaster();
+    wolfCollar.render();
 
 
 
@@ -60,7 +60,7 @@ function renderDog() {
     wolfTail.matrix.rotate(-g_tailAngleX, 1, 0, 0);
     wolfTail.matrix.scale(0.1, 0.45, 0.1);
 
-    wolfTail.renderFaster();
+    wolfTail.render();
 
     // Head
     var wolfFace = new Cube();
@@ -77,7 +77,7 @@ function renderDog() {
     var ScleraR = new Matrix4(wolfFace.matrix);
     wolfFace.matrix.scale(0.4, 0.4, 0.175);
 
-    wolfFace.renderFaster();
+    wolfFace.render();
 
 
     var wolfPupilL = new Cube();
@@ -87,7 +87,7 @@ function renderDog() {
     wolfPupilL.matrix.translate(.25, 0.2, -0.001);
     wolfPupilL.matrix.scale(0.075, 0.075, 0.075);
 
-    wolfPupilL.renderFaster();
+    wolfPupilL.render();
 
 
     var wolfPupilR = new Cube();
@@ -97,7 +97,7 @@ function renderDog() {
     wolfPupilR.matrix.translate(.075, 0.2, -0.001);
     wolfPupilR.matrix.scale(0.075, 0.075, 0.075);
 
-    wolfPupilR.renderFaster();
+    wolfPupilR.render();
 
 
     var wolfScleraL = new Cube();
@@ -107,7 +107,7 @@ function renderDog() {
     wolfScleraL.matrix.translate(.3251, 0.2, -0.001);
     wolfScleraL.matrix.scale(0.075, 0.075, 0.075);
 
-    wolfScleraL.renderFaster();
+    wolfScleraL.render();
 
 
     var wolfScleraR = new Cube();
@@ -117,7 +117,7 @@ function renderDog() {
     wolfScleraR.matrix.translate(-0.001, 0.2, -0.001);
     wolfScleraR.matrix.scale(0.075, 0.075, 0.075);
 
-    wolfScleraR.renderFaster();
+    wolfScleraR.render();
 
 
     var wolfMouth = new Cube();
@@ -129,7 +129,7 @@ function renderDog() {
     var Nose = new Matrix4(wolfMouth.matrix);
     wolfMouth.matrix.scale(0.2, 0.2, 0.205);
 
-    wolfMouth.renderFaster();
+    wolfMouth.render();
 
 
     var wolfNose = new Cube();
@@ -139,7 +139,7 @@ function renderDog() {
     wolfNose.matrix.translate(0.068, 0.1351, -0.001);
     wolfNose.matrix.scale(0.065, 0.065, 0.065);
 
-    wolfNose.renderFaster();
+    wolfNose.render();
 
     var wolfLip = new Cube();
     wolfLip.color = [0.2, 0.2, 0.2, 1];
@@ -148,7 +148,7 @@ function renderDog() {
     wolfLip.matrix.translate(-0.001, 0.0001, -0.001);
     wolfLip.matrix.scale(0.203, 0.065, 0.2003);
 
-    wolfLip.renderFaster();
+    wolfLip.render();
 
 
     var wolfEarL = new Cube();
@@ -158,7 +158,7 @@ function renderDog() {
     wolfEarL.matrix.translate(0, 0.4, 0.125);
     wolfEarL.matrix.scale(0.15, 0.14, 0.05);
 
-    wolfEarL.renderFaster();
+    wolfEarL.render();
 
 
     var wolfEarR = new Cube();
@@ -168,7 +168,7 @@ function renderDog() {
     wolfEarR.matrix.translate(0.25, 0.4, 0.125);
     wolfEarR.matrix.scale(0.15, 0.14, 0.05);
 
-    wolfEarR.renderFaster()
+    wolfEarR.render()
 
     // Upper Legs
     var wolfUpLegLT = new Cube();
@@ -181,7 +181,7 @@ function renderDog() {
     var UpLTtoLB = new Matrix4(wolfUpLegLT.matrix);
     wolfUpLegLT.matrix.scale(0.125, 0.35, 0.125);
 
-    wolfUpLegLT.renderFaster();
+    wolfUpLegLT.render();
 
 
     var wolfUpLegLB = new Cube();
@@ -192,7 +192,7 @@ function renderDog() {
     wolfUpLegLB.matrix.rotate(g_secondJointAngle, 1, 0, 0);
     wolfUpLegLB.matrix.scale(0.125, 0.225, 0.125);
 
-    wolfUpLegLB.renderFaster();
+    wolfUpLegLB.render();
 
 
     var wolfUpLegRT = new Cube();
@@ -206,7 +206,7 @@ function renderDog() {
     var UpRTtoRB = new Matrix4(wolfUpLegRT.matrix);
     wolfUpLegRT.matrix.scale(0.125, 0.35, 0.125);
 
-    wolfUpLegRT.renderFaster();
+    wolfUpLegRT.render();
 
 
     var wolfUpLegRB = new Cube();
@@ -217,7 +217,7 @@ function renderDog() {
     wolfUpLegRB.matrix.rotate(g_secondJointAngle, 1, 0, 0);
     wolfUpLegRB.matrix.scale(0.125, 0.225, 0.125);
 
-    wolfUpLegRB.renderFaster();
+    wolfUpLegRB.render();
 
 
     // Lower Legs
@@ -231,7 +231,7 @@ function renderDog() {
     var LowLTtoLB = new Matrix4(wolfLowLegLT.matrix);
     wolfLowLegLT.matrix.scale(0.125, 0.35, 0.125);
 
-    wolfLowLegLT.renderFaster();
+    wolfLowLegLT.render();
 
 
     var wolfLowLegLB = new Cube();
@@ -242,7 +242,7 @@ function renderDog() {
     wolfLowLegLB.matrix.rotate(g_secondJointAngle, 1, 0, 0);
     wolfLowLegLB.matrix.scale(0.125, 0.23, 0.125);
 
-    wolfLowLegLB.renderFaster();
+    wolfLowLegLB.render();
 
 
     var wolfLowLegRT = new Cube();
@@ -256,7 +256,7 @@ function renderDog() {
     var LowRTtoRB = new Matrix4(wolfLowLegRT.matrix);
     wolfLowLegRT.matrix.scale(0.125, 0.35, 0.125);
 
-    wolfLowLegRT.renderFaster();
+    wolfLowLegRT.render();
 
 
     var wolfLowLegRB = new Cube();
@@ -267,5 +267,5 @@ function renderDog() {
     wolfLowLegRB.matrix.rotate(g_secondJointAngle, 1, 0, 0);
     wolfLowLegRB.matrix.scale(0.125, 0.23, 0.125);
 
-    wolfLowLegRB.renderFaster();
+    wolfLowLegRB.render();
 }

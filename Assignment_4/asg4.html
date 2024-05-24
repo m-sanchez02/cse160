@@ -4,9 +4,6 @@
     <meta charset="utf-8" />
     <title>Assignment 4</title>
     <style>
-        #sensitivity_slider {
-            width: 200px;
-        }
         #fov_slider {
             width: 200px;
         }
@@ -23,7 +20,7 @@
         /* CSS code below is from w3schools. Source: https://www.w3schools.com/howto/howto_css_two_columns.asp */
         .column {
             float: left;
-            width: 25%;
+            width: 30%;
         }
         .row:after {
             content: "";
@@ -40,7 +37,12 @@
             <h3>msanc158@ucsc.edu</h3>
 
             <h3>Notes to Grader:</h3>
-            <p></p>
+            <p>
+                The world used is a copy of my assignment 3 virtual world (The Brick Maze). It does not include the wolf from assignment 3, only the maze component. <br>
+                I implemented all rubric points except for "A spot light is added." <br>
+                Given that the camera control is from assignment 3, there is still a big with the mouse tracking, where there could be sudden jumps in camera movement when panning around with mouse control. <br>
+                This is caused by Chromium.
+            </p>
         </div>
         <div class="column">
             <canvas id="webgl" width="400" height="400">
@@ -48,48 +50,85 @@
             </canvas>
         </div>
     </div>
-    <h2>Assignment 4: Lighting</h2>
-    <p>
-        <b>Controls:</b> <br>
-        Forward: W <br>
-        Backward: S <br>
-        Left: A <br>
-        Right: D <br>
-        Pan Left: Q <br>
-        Pan Right: E <br>
-        Sprint: Hold SHIFT while moving
-        <br><br>
-        Click on the canvas to control camera pan using the mouse. <br>
-    </p>
+    <div class="row">
+        <div class="column">
+            <h2>Assignment 4: Lighting</h2>
+            <p>
+                <b>Controls:</b> <br>
+                Forward: W <br>
+                Backward: S <br>
+                Left: A <br>
+                Right: D <br>
+                Pan Left: Q <br>
+                Pan Right: E <br>
+                Sprint: Hold SHIFT while moving
+                <br><br>
+                Click on the canvas to control camera pan using the mouse. <br>
+            </p>
 
-    <p id="numdot" style="display: inline"></p>
+            <p id="numdot" style="display: inline"></p>
 
-    |
+            |
 
-    <p id="x_coord" style="display: inline"></p>
-    <p id="z_coord" style="display: inline"></p>
-    
-    <p></p>
-    <button id="resetPos" >Reset to Beginning</button> or press R
-    
-    <h4>Settings:</h4>
+            <p id="x_coord" style="display: inline"></p>
+            <p id="z_coord" style="display: inline"></p>
+            
+            <p></p>
+            <button id="resetCameraPos" >Reset Camera Position</button> or press R
+        </div>
+        <div class="column">
+            <h4>Settings:</h4>
 
-    <label for="fov_slider">Field of View:</label>
-    <input id="fov_slider" type="range" min="30" max="90" step="1" value="60"/>
-    <p></p>
-    <label>Normals:</label>
-    <button id="normalOn">ON</button>
-    <button id="normalOff">OFF</button>
-    <label>Light:</label>
-    <button id="lightOn">ON</button>
-    <button id="lightOff">OFF</button>
-    <p></p>
-    <label>Light X</label>
-    <input id="light_sliderx" type="range" min="-125" max="750" step="1" value="0"/>
-    <label>Light Y</label>
-    <input id="light_slidery" type="range" min="-125" max="750" step="1" value="250"/>
-    <label>Light Z</label>
-    <input id="light_sliderz" type="range" min="-125" max="750" step="1" value="0"/>
+            <label for="fov_slider">Field of View:</label>
+            <input id="fov_slider" type="range" min="30" max="90" step="1" value="60"/>
+
+            <p></p>
+
+            <label>Normals:</label>
+            <button id="normalOn">ON</button>
+            <button id="normalOff">OFF</button>
+
+            <p></p>
+
+            <label>Lighting:</label>
+            <button id="lightOn">ON</button>
+            <button id="lightOff">OFF</button>
+
+            <p></p>
+            
+            <label>Red:</label>
+            <input id="rlight_slider" type="range" min="0" max="255" step="1" value="255"/>
+            <label>Green:</label>
+            <input id="glight_slider" type="range" min="0" max="255" step="1" value="255"/>
+            <label>Blue:</label>
+            <input id="blight_slider" type="range" min="0" max="255" step="1" value="255"/>
+
+            <p></p>
+
+            <label>Light Animation:</label>
+            <button id="lightAnimOn">ON</button>
+            <button id="lightAnimOff">OFF</button>
+
+            <p></p>
+
+            <label>Light X:</label>
+            <input id="light_sliderx" type="range" min="-475" max="475" step="1" value="0"/>
+
+            <p></p>
+
+            <label>Light Y:</label>
+            <input id="light_slidery" type="range" min="0" max="475" step="1" value="250"/>
+
+            <p></p>
+
+            <label>Light Z:</label>
+            <input id="light_sliderz" type="range" min="-475" max="475" step="1" value="0"/>
+
+            <p></p>
+
+            <button id="resetLightPos" >Reset Light Position</button>
+        </div>
+    </div>
 
     <script src="lib/webgl-utils.js"></script>
     <script src="lib/webgl-debug.js"></script>
