@@ -38,6 +38,11 @@ function main() {
             'resources/images/cubemap/nz.jpg'
         ]);
         scene.background = texture;
+
+        const color = 0xFFFFFF;
+        const near = 1;
+        const far = 75;
+        scene.fog = new THREE.Fog(color, near, far);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,7 +115,7 @@ function main() {
     scene.add(directionalLight);
 
     // Ambient Light (blueish hue around world)
-    const ambientLight = new THREE.AmbientLight(0x475abf, 6);
+    const ambientLight = new THREE.AmbientLight(0x0335fc, 2.5);
     ambientLight.position.set(0, 2, 0);
     scene.add(ambientLight);
 
@@ -120,38 +125,73 @@ function main() {
     scene.add(pointLight);
 
     // Spot Light (car headlights)
-    const spotlightGTR = new THREE.SpotLight(0xFFFFFF, 150);
-    scene.add(spotlightGTR);
-    scene.add(spotlightGTR.target);
-    spotlightGTR.angle = Math.PI/4;
-    spotlightGTR.position.set(11.5, -0.35, -14);
-    spotlightGTR.target.position.set(11.5, 2, 17);
-    spotlightGTR.penumbra = 0.5;
-
-    const spotlightCop = new THREE.SpotLight(0xFFFFFF, 150);
-    scene.add(spotlightCop);
-    scene.add(spotlightCop.target);
-    spotlightCop.angle = Math.PI/4;
-    spotlightCop.position.set(11.5, -0.35, 3.75);
-    spotlightCop.target.position.set(11.5, 2, 17);
-    spotlightCop.penumbra = 0.5;
-
-    const spotlightCharger = new THREE.SpotLight(0xFFFFFF, 150);
-    scene.add(spotlightCharger);
-    scene.add(spotlightCharger.target);
-    spotlightCharger.angle = Math.PI/4;
-    spotlightCharger.position.set(14.25, -0.35, 14);
-    spotlightCharger.target.position.set(14.25, 2, -17);
-    spotlightCharger.penumbra = 0.5;
-
-    const spotlightVan = new THREE.SpotLight(0xFFFFFF, 150);
-    scene.add(spotlightVan);
-    scene.add(spotlightVan.target);
-    spotlightVan.angle = Math.PI/4;
-    spotlightVan.position.set(14.25, -0.35, -4.5);
-    spotlightVan.target.position.set(14.25, 2, -17);
-    spotlightVan.penumbra = 0.5;
+    // GTR
+    const spotlightGTRL = new THREE.SpotLight(0xFFFFFF, 150);
+    scene.add(spotlightGTRL);
+    scene.add(spotlightGTRL.target);
+    spotlightGTRL.angle = Math.PI/4;
+    spotlightGTRL.position.set(12, -0.35, -14);
+    spotlightGTRL.target.position.set(11.5, 2, 17);
+    spotlightGTRL.penumbra = 0.5;
     
+    const spotlightGTRR = new THREE.SpotLight(0xFFFFFF, 150);
+    scene.add(spotlightGTRR);
+    scene.add(spotlightGTRR.target);
+    spotlightGTRR.angle = Math.PI/4;
+    spotlightGTRR.position.set(11, -0.35, -14);
+    spotlightGTRR.target.position.set(11.5, 2, 17);
+    spotlightGTRR.penumbra = 0.5;
+
+    // Cop
+    const spotlightCopL = new THREE.SpotLight(0xFFFFFF, 150);
+    scene.add(spotlightCopL);
+    scene.add(spotlightCopL.target);
+    spotlightCopL.angle = Math.PI/4;
+    spotlightCopL.position.set(12, -0.35, 3.75);
+    spotlightCopL.target.position.set(11.5, 2, 17);
+    spotlightCopL.penumbra = 0.5;
+    
+    const spotlightCopR = new THREE.SpotLight(0xFFFFFF, 150);
+    scene.add(spotlightCopR);
+    scene.add(spotlightCopR.target);
+    spotlightCopR.angle = Math.PI/4;
+    spotlightCopR.position.set(11, -0.35, 3.75);
+    spotlightCopR.target.position.set(11.5, 2, 17);
+    spotlightCopR.penumbra = 0.5;
+
+    // Charger
+    const spotlightChargerL = new THREE.SpotLight(0xFFFFFF, 150);
+    scene.add(spotlightChargerL);
+    scene.add(spotlightChargerL.target);
+    spotlightChargerL.angle = Math.PI/4;
+    spotlightChargerL.position.set(14.5, -0.35, 14);
+    spotlightChargerL.target.position.set(14.25, 2, -17);
+    spotlightChargerL.penumbra = 0.5;
+
+    const spotlightChargerR = new THREE.SpotLight(0xFFFFFF, 150);
+    scene.add(spotlightChargerR);
+    scene.add(spotlightChargerR.target);
+    spotlightChargerR.angle = Math.PI/4;
+    spotlightChargerR.position.set(14, -0.35, 14);
+    spotlightChargerR.target.position.set(14.25, 2, -17);
+    spotlightChargerR.penumbra = 0.5;
+
+    // Van
+    const spotlightVanL = new THREE.SpotLight(0xFFFFFF, 150);
+    scene.add(spotlightVanL);
+    scene.add(spotlightVanL.target);
+    spotlightVanL.angle = Math.PI/4;
+    spotlightVanL.position.set(14.75, -0.35, -4.5);
+    spotlightVanL.target.position.set(14.25, 2, -17);
+    spotlightVanL.penumbra = 0.5;
+
+    const spotlightVanR = new THREE.SpotLight(0xFFFFFF, 150);
+    scene.add(spotlightVanR);
+    scene.add(spotlightVanR.target);
+    spotlightVanR.angle = Math.PI/4;
+    spotlightVanR.position.set(13.75, -0.35, -4.5);
+    spotlightVanR.target.position.set(14.25, 2, -17);
+    spotlightVanR.penumbra = 0.5;
     
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -190,19 +230,13 @@ function main() {
         dashes.position.z = z;
     }
     
-    const dashes = [
-        makeRoadDashes(0, -18),
-        makeRoadDashes(0, -14),
-        makeRoadDashes(0, -10),
-        makeRoadDashes(0, -6),
-        makeRoadDashes(0, -2),
-        makeRoadDashes(0, 2),
-        makeRoadDashes(0, 6),
-        makeRoadDashes(0, 10),
-        makeRoadDashes(0, 14),
-        makeRoadDashes(0, 18)
-    ];
-    
+    // Road dashes
+    var dash_zCoord = -18;
+    for (var i = 0; i < 10; i++) {
+        makeRoadDashes(0, dash_zCoord);
+        dash_zCoord += 4;
+    }
+
     // Dirt Road
     const dirtRoadWidth = 4;
     const dirtRoadHeight = 0.3;
@@ -321,21 +355,70 @@ function main() {
         makeTree(-1, 8),
         makeTree(-9, 6),
         makeTree(-17, -3),
+        makeTree(-12, 5),
+        makeTree(-5, 9),
+        makeTree(-6, 11),
+        makeTree(-9, 10),
+        makeTree(-11, 17),
+        makeTree(0, 18),
+        makeTree(-2, 16),
+        makeTree(-6, 16),
         makeTree(0, -4),
+        makeTree(-16, -6),
+        makeTree(-18, -9)
     ];
 
+    // From three.js manual on billboards
+    // https://threejs.org/manual/#en/billboards
+    function makeLabelCanvas( size, name ) {
+
+		const borderSize = 12;
+		const ctx = document.createElement( 'canvas' ).getContext( '2d' );
+		const font = `${size}px bold sans-serif`;
+		ctx.font = font;
+		// measure how long the name will be
+		const doubleBorderSize = borderSize * 2;
+		const width = ctx.measureText( name ).width + doubleBorderSize;
+		const height = size + doubleBorderSize;
+		ctx.canvas.width = width;
+		ctx.canvas.height = height;
+
+		// need to set font again after resizing canvas
+		ctx.font = font;
+		ctx.textBaseline = 'top';
+
+		ctx.fillStyle = 'black';
+		ctx.fillRect( 0, 0, width, height );
+		ctx.fillStyle = 'white';
+		ctx.fillText( name, borderSize, borderSize );
+
+		return ctx.canvas;
+
+	}
+
     // People
-    function makePeople(x, y, z, c) {
+    function makePeople(x, y, z, c, size, name) {
+        const canvas = makeLabelCanvas( size, name );
+		const texture = new THREE.CanvasTexture( canvas );
+		// because our canvas is likely not a power of 2
+		// in both dimensions set the filtering appropriately.
+		texture.minFilter = THREE.LinearFilter;
+		texture.wrapS = THREE.ClampToEdgeWrapping;
+		texture.wrapT = THREE.ClampToEdgeWrapping;
+
+        const root = new THREE.Object3D();
+        root.position.x = x;
+        root.position.y = y;
+        root.position.z = z;
+
         const radius = 0.2;
         const widthSegments = 15;
         const heightSegments = 15;
         const sphereGeometry = new THREE.SphereGeometry(radius, widthSegments, heightSegments);
         const sphereMaterial = new THREE.MeshPhongMaterial({color: c});
         const head = new THREE.Mesh(sphereGeometry, sphereMaterial);
-        scene.add(head);
-        head.position.x = x;
-        head.position.y = y+0.6;
-        head.position.z = z;
+        root.add(head);
+        head.position.y = 0.6;
 
         const radiusTop = 0.3;
         const radiusBottom = 0.1;
@@ -344,19 +427,32 @@ function main() {
         const cylinderGeometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radialSegments);
         const cylinderMaterial = new THREE.MeshPhongMaterial({color: c});
         const body = new THREE.Mesh(cylinderGeometry, cylinderMaterial);
-        scene.add(body);
-        body.position.x = x;
-        body.position.y = y;
-        body.position.z = z;
+        root.add(body);
+
+        const labelMaterial = new THREE.SpriteMaterial( {
+			map: texture,
+			transparent: true,
+		} );
+
+        const labelBaseScale = 0.005;
+
+        const label = new THREE.Sprite(labelMaterial);
+		root.add( label );
+        label.scale.x = canvas.width  * labelBaseScale;
+        label.scale.y = canvas.height * labelBaseScale;
+		label.position.y = head.position.y + radius + size * labelBaseScale;
+
+        scene.add(root);
+        
     }
 
     const People = [
-        makePeople(-7.3, -.5, 0.6, 0xFFFFFF),
-        makePeople(-8.5, -.5, -2.25, 0x00c8ff),
-        makePeople(-7, -.5, -1.5, 0x67ed42),
-        makePeople(-9.5, -.5, 0.5, 0xbb00ff)
+        makePeople(-7.3, -.5, 0.6, 0xFFFFFF, 35, 'Miguel' ),
+        makePeople(-8.5, -.5, -2.25, 0x00c8ff, 35, 'Alexis'),
+        makePeople(-7, -.5, -1.5, 0x67ed42, 35, 'Albert'),
+        makePeople(-9.5, -.5, 0.5, 0xbb00ff, 35, 'Gabriel')
     ];
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     const objLoader = new OBJLoader();
@@ -395,6 +491,13 @@ function main() {
         root.scale.set(0.035, 0.035, 0.035);
         root.position.set(14.25, -0.9, -4);
         root.rotation.y = Math.PI;
+
+        let root2 = root.clone();
+        scene.add(root2);
+        root2.position.x = -5.5;
+        root2.position.z = 4;
+        root2.position.y = -1;
+        root2.rotation.y = Math.PI/4;
     });
 
     // Police Car by Quaternius
@@ -499,6 +602,29 @@ function main() {
         root.position.set(-6.5, -0.8, -1.5);
         root.rotation.y = Math.PI/4;
     });
+
+    // Grass Patch by Danni Bittman [CC-BY] via Poly Pizza
+    mtlLoader.load('resources/models/Environment/grass/grass_patch/materials.mtl', (mtl) => {
+        mtl.preload();
+        objLoader.setMaterials(mtl);
+    });
+    objLoader.load('resources/models/Environment/grass/grass_patch/model.obj', (root) => {
+        for (var i = -18; i < 10; i++) {
+            for (var j = -18; j < 20; j += 2) {
+                if (-14 < i && i < -5 && -7 < j && j < 6) {
+                    continue;
+                }
+                if (-14 < i && i >= -5 && -5 < j && j < 4) {
+                    continue;
+                }
+
+                let rootCpy = root.clone();
+                scene.add(rootCpy);
+                rootCpy.position.set(i, -0.75, j);
+            }
+        }
+    });
+
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
